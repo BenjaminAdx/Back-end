@@ -4,7 +4,7 @@ var database = require('../database');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'AutoComplete Search in Node.js with MySQL' });
+  res.render('index', { title: 'AutoComplete Search' });
 });
 
 router.get('/get_data', function (request, response, next) {
