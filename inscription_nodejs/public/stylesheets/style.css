@@ -4,5 +4,19 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+#visible {
+  display: flex;
+  position: relative;
+  top: -32px;
+  left: 180px;
+}
+
+#invisible {
+  display: none;
+  position: relative;
+  top: -32px;
+  left: 180px;
 }
