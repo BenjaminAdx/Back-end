@@ -10,13 +10,13 @@ a {
 #visible {
   display: flex;
   position: relative;
-  top: -32px;
+  top: -33px;
   left: 180px;
 }
 
 #invisible {
   display: none;
   position: relative;
-  top: -32px;
+  top: -33px;
   left: 180px;
 }
