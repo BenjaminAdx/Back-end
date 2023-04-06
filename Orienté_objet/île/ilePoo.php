@@ -2,18 +2,18 @@
 
 class kohLanta
 {
-    private $thirst;
+    /* private $thirst;
     private $hunger;
     private $shape;
-    private $island;
+    private $island; */
     private $region;
 
-    function __construct($thirst, $hunger, $shape, $island)
+    function __construct(private $thirst, private $hunger, private $shape, private $island)
     {
-        $this->thirst = $thirst;
+        /* $this->thirst = $thirst;
         $this->hunger = $hunger;
         $this->shape = $shape;
-        $this->island = $island;
+        $this->island = $island; */
     }
 
     public function getCutTab()
@@ -25,7 +25,7 @@ class kohLanta
         return strlen($this->region);
     }
     public function getWater()
-    {
+    { 
         return substr_count($this->region, 'W');
     }
     public function getFood()
