@@ -31,7 +31,7 @@ $data = $select->fetch();
     <h1>Page de <?= $data["username"]; ?></h1>
     <img src="./upload/<?= $data["avatar"]; ?>" alt="Photo profil de <?= $data["username"]; ?>">
 
-    <a href="article.php">Créer un article</a>
+    <a href="create.php">Créer un article</a>
     <a href="deconnexion.php">Se déconnecter</a>
 
 </body>

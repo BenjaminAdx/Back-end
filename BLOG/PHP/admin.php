@@ -27,7 +27,7 @@ $data = $select->fetch();
 
     <h1>Page Administrateur</h1>
     <p>Bienvenue <?= $data["username"]; ?></p>
-    <a href="article.php">Créer un article</a>
+    <a href="create.php">Créer un article</a>
     <a href="deconnexion.php">Se déconnecter</a>
 
 </body>

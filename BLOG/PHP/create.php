@@ -25,13 +25,16 @@ if (isset($_POST["article"])) {
                 $reqinsert->execute(array($title, $content, $image, $ID));
                 header("Location: index.php");
             } else {
-                $reqinsert = $pdo->prepare('INSERT INTO Article (title, content, ID_User) VALUES (?,?,?)');
-                $reqinsert->execute(array($title, $content, $ID));
-                header("Location: index.php");
+                $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
             }
         } else {
-            $error = "Veuillez remplir les champs";
+
+            $reqinsert = $pdo->prepare('INSERT INTO Article (title, content, ID_User, date) VALUES (?,?,?,NOW())');
+            $reqinsert->execute(array($title, $content, $ID));
+            header("Location: index.php");
         }
+    } else {
+        $error = "Veuillez remplir les champs";
     }
 }
 
