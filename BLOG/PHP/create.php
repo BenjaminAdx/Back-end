@@ -9,7 +9,8 @@ if (isset($_POST["article"])) {
         $title = $_POST["title"];
         $content = $_POST["content"];
         $ID = $_SESSION["ID"];
-        if (isset($_FILES["image"])) {
+        var_dump($_FILES["image"]);
+        if (!empty($_FILES["image"]["tmp_name"])) {
             $tmpName = $_FILES["image"]["tmp_name"];
             $name = $_FILES["image"]["name"];
             $size = $_FILES["image"]["size"];
@@ -55,7 +56,7 @@ if (isset($_POST["article"])) {
     <div>
         <form action="" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" id="title" placeholder="Titre" required><br>
-            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+            <textarea name="content" id="content" cols="30" rows="10"></textarea><br>
             <input type="file" name="image" id="image" placeholder="Upload de l'image de votre article"><br>
             <input type="submit" value="Enregistrer" name="article">
 

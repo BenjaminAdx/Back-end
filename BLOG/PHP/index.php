@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+require_once("bdd.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
