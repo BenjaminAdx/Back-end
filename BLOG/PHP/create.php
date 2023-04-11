@@ -4,12 +4,16 @@ session_start();
 
 require_once("bdd.php");
 
+if (!isset($_SESSION["ID"])) {
+
+    header("Location: deconnexion.php");
+}
+
 if (isset($_POST["article"])) {
     if (!empty($_POST["title"]) && !empty($_POST["content"])) {
         $title = $_POST["title"];
         $content = $_POST["content"];
         $ID = $_SESSION["ID"];
-        var_dump($_FILES["image"]);
         if (!empty($_FILES["image"]["tmp_name"])) {
             $tmpName = $_FILES["image"]["tmp_name"];
             $name = $_FILES["image"]["name"];
@@ -17,14 +21,14 @@ if (isset($_POST["article"])) {
             $tabExtension = explode('.', $name);
             $extension = strtolower(end($tabExtension));
             $extensions = ["jpg", "png", "jpeg"];
-            $maxSize = 400000;
+            $maxSize = 4000000;
             if (in_array($extension, $extensions) && $size <= $maxSize) {
                 $uniqueName = uniqid("", true);
                 $image = $uniqueName . "." . $extension;
                 move_uploaded_file($tmpName, 'imgarticle/' . $image);
                 $reqinsert = $pdo->prepare('INSERT INTO Article (title, content, image, ID_User, date) VALUES (?,?,?,?,NOW())');
                 $reqinsert->execute(array($title, $content, $image, $ID));
-                header("Location: index.php");
+                header("Location: user.php");
             } else {
                 $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
             }
@@ -32,7 +36,7 @@ if (isset($_POST["article"])) {
 
             $reqinsert = $pdo->prepare('INSERT INTO Article (title, content, ID_User, date) VALUES (?,?,?,NOW())');
             $reqinsert->execute(array($title, $content, $ID));
-            header("Location: index.php");
+            header("Location: user.php");
         }
     } else {
         $error = "Veuillez remplir les champs";

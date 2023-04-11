@@ -4,46 +4,58 @@ session_start();
 
 require_once("bdd.php");
 
+if (!isset($_SESSION["ID"])) {
+
+    header("Location: deconnexion.php");
+}
+
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $ID = $_GET['id'];
-    if (isset($_POST["article"])) {
-        if (!empty($_POST["title"]) && !empty($_POST["content"])) {
-            $title = $_POST["title"];
-            $content = $_POST["content"];
-            if (!empty($_FILES["image"]["tmp_name"])) {
-                $tmpName = $_FILES["image"]["tmp_name"];
-                $name = $_FILES["image"]["name"];
-                $size = $_FILES["image"]["size"];
-                $tabExtension = explode('.', $name);
-                $extension = strtolower(end($tabExtension));
-                $extensions = ["jpg", "png", "jpeg"];
-                $maxSize = 400000;
-                if (in_array($extension, $extensions) && $size <= $maxSize) {
-                    $uniqueName = uniqid("", true);
-                    $image = $uniqueName . "." . $extension;
-                    move_uploaded_file($tmpName, 'imgarticle/' . $image);
-                    $reqinsert = $pdo->prepare('UPDATE Article title = ?, content = ?, image = ?, date = NOW() WHERE ID = $ID');
-                    $reqinsert->execute(array($title, $content, $image));
-                    header("Location: user.php");
+    $ID = (int)substr($_GET['id'], 1, -1);
+    $select = $pdo->prepare("SELECT * FROM Article WHERE ID = ?");
+    $select->execute(array($ID));
+    $data = $select->fetch();
+    if ($_SESSION["ID"] !== $data["ID_User"] && $_SESSION["ID_Role"] !== 3) {
+
+        header("Location: deconnexion.php");
+    } else {
+        if (isset($_POST["article"])) {
+            if (!empty($_POST["title"]) && !empty($_POST["content"])) {
+                $title = $_POST["title"];
+                $content = $_POST["content"];
+                if (!empty($_FILES["image"]["tmp_name"])) {
+                    $tmpName = $_FILES["image"]["tmp_name"];
+                    $name = $_FILES["image"]["name"];
+                    $size = $_FILES["image"]["size"];
+                    $tabExtension = explode('.', $name);
+                    $extension = strtolower(end($tabExtension));
+                    $extensions = ["jpg", "png", "jpeg"];
+                    $maxSize = 4000000;
+                    if (in_array($extension, $extensions) && $size <= $maxSize) {
+                        if (!empty($data["image"])) {
+                            unlink('imgarticle/' . $data["image"]);
+                        }
+                        $uniqueName = uniqid("", true);
+                        $image = $uniqueName . "." . $extension;
+                        move_uploaded_file($tmpName, 'imgarticle/' . $image);
+                        $reqinsert = $pdo->prepare("UPDATE Article SET title = ?, content = ?, image = ? WHERE ID = ?");
+                        $reqinsert->execute(array($title, $content, $image, $ID));
+                        header("Location: user.php");
+                    } else {
+                        $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
+                    }
                 } else {
-                    $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
+                    $reqinsert = $pdo->prepare("UPDATE Article SET title = ?, content = ? WHERE ID = ?");
+                    $reqinsert->execute(array($title, $content, $ID));
+                    header("Location: user.php");
                 }
             } else {
-
-                $reqinsert = $pdo->prepare('UPDATE Article title = ?, content = ?, date = NOW() WHERE ID = $ID');
-                $reqinsert->execute(array($title, $content));
-                header("Location: user.php");
+                $error = "Veuillez remplir les champs";
             }
-        } else {
-            $error = "Veuillez remplir les champs";
         }
     }
 }
 
-$select = $pdo->prepare("SELECT * FROM Article WHERE ID = $ID");
-$select->execute();
-$data = $select->fetch();
 
 ?>
 

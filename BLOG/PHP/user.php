@@ -37,7 +37,7 @@ $data2 = $select2->fetchAll();
 
     <a href="create.php">Créer un article</a>
     <a href="updateuser.php">Modifier le profil</a>
-    <a href="deleteuser.php">Supprimer le profil</a>
+    <a href="deleteuser.php" onclick="return confirm('Vous confirmez la suppression de votre profil ?');">Supprimer le profil</a>
     <a href="deconnexion.php">Se déconnecter</a>
 
     <h2>Mes Articles</h2>
@@ -51,7 +51,7 @@ $data2 = $select2->fetchAll();
                 <a href="publicate.php?id='<?= $fetch["ID"] ?>'">Publier</a>
             <?php endif; ?>
             <a href="updatearticle.php?id='<?= $fetch["ID"] ?>'">Modifier</a>
-            <a href="deletearticle.php?id='<?= $fetch["ID"] ?>'">Supprimer</a>
+            <a href="deletearticle.php?id='<?= $fetch["ID"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a>
         </div>
     <?php endforeach; ?>
 

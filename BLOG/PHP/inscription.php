@@ -20,14 +20,14 @@ if (isset($_POST["inscription"])) {
                     $emailexist = $reqemail->rowCount();
                     if ($emailexist == 0) {
                         if ($password == $password2) {
-                            if (!empty($_FILES["image"]["tmp_name"])) {
+                            if (!empty($_FILES["avatar"]["tmp_name"])) {
                                 $tmpName = $_FILES["avatar"]["tmp_name"];
                                 $name = $_FILES["avatar"]["name"];
                                 $size = $_FILES["avatar"]["size"];
                                 $tabExtension = explode('.', $name);
                                 $extension = strtolower(end($tabExtension));
                                 $extensions = ["jpg", "png", "jpeg"];
-                                $maxSize = 400000;
+                                $maxSize = 4000000;
                                 if (in_array($extension, $extensions) && $size <= $maxSize) {
                                     $uniqueName = uniqid("", true);
                                     $avatar = $uniqueName . "." . $extension;
@@ -41,8 +41,8 @@ if (isset($_POST["inscription"])) {
                                 }
                             } else {
                                 $passwordhash = password_hash($password, PASSWORD_DEFAULT);
-                                $reqinsert = $pdo->prepare('INSERT INTO User (username, password, email) VALUES (?,?,?)');
-                                $reqinsert->execute(array($pseudo, $passwordhash, $email));
+                                $reqinsert = $pdo->prepare('INSERT INTO User (username, password, email, avatar) VALUES (?,?,?,?)');
+                                $reqinsert->execute(array($pseudo, $passwordhash, $email, "avatar.jpg"));
                                 header("Location: connexion.php");
                             }
                         } else {
