@@ -55,7 +55,7 @@ if (isset($_POST["inscription"])) {
                     $error = "Votre pseudo est déjà utilisé.";
                 }
             } else {
-                $error = "Votre mot de passe doit contenir au minimum 1 lettre et 1 chiffre et doit être composé de 8 à 12 caractères.";
+                $error = "Votre mot de passe doit contenir au minimum 1 lettre, 1 chiffre, 1 caractère spécial et doit être composé de 8 à 12 caractères";
             }
         } else {
             $error = "Votre adresse mail n'est pas valide";
