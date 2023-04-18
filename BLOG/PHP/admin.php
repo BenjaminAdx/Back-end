@@ -8,9 +8,17 @@ if (!isset($_SESSION["ID"]) || $_SESSION["ID_Role"] !== 3) {
     header("Location: deconnexion.php");
 }
 
-$select = $pdo->prepare("SELECT * FROM User WHERE ID = ?");
-$select->execute([$_SESSION["ID"]]);
-$data = $select->fetch();
+$select = $pdo->prepare("SELECT * FROM User");
+$select->execute();
+$data = $select->fetchAll();
+
+$select2 = $pdo->prepare("SELECT * FROM Article");
+$select2->execute();
+$data2 = $select2->fetchAll();
+
+$select3 = $pdo->prepare("SELECT * FROM Article_temp");
+$select3->execute();
+$data3 = $select3->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -26,9 +34,8 @@ $data = $select->fetch();
 <body>
 
     <h1>Page Administrateur</h1>
-    <p>Bienvenue <?= $data["username"]; ?></p>
-    <a href="create.php">Créer un article</a>
-    <a href="deconnexion.php">Se déconnecter</a>
+    <p>Bienvenue</p>
+
 
 </body>
 

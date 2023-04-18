@@ -21,14 +21,7 @@ if (isset($_POST["email"])) {
                 var_dump($data);
                 $_SESSION["ID"] = $data["ID"];
                 $_SESSION["ID_Role"] = $data["ID_Role"];
-
-                if ($data["ID_Role"] === 3) {
-                    header("Location: admin.php");
-                } else if ($data["ID_Role"] === 2) {
-                    header("Location: moderateur.php");
-                } else if ($data["ID_Role"] === 1) {
-                    header("Location: user.php");
-                }
+                header("Location: user.php");
             } else {
                 $error = "Le mot de passe est incorrect";
             }

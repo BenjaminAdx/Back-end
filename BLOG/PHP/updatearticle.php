@@ -20,42 +20,80 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         header("Location: deconnexion.php");
     } else {
         if (isset($_POST["article"])) {
-            if (!empty($_POST["title"]) && !empty($_POST["content"])) {
-                $title = $_POST["title"];
-                $content = $_POST["content"];
-                if (!empty($_FILES["image"]["tmp_name"])) {
-                    $tmpName = $_FILES["image"]["tmp_name"];
-                    $name = $_FILES["image"]["name"];
-                    $size = $_FILES["image"]["size"];
-                    $tabExtension = explode('.', $name);
-                    $extension = strtolower(end($tabExtension));
-                    $extensions = ["jpg", "png", "jpeg"];
-                    $maxSize = 4000000;
-                    if (in_array($extension, $extensions) && $size <= $maxSize) {
-                        if (!empty($data["image"])) {
-                            unlink('imgarticle/' . $data["image"]);
+            if ($data["ID_Moderation"] === 3) {
+                $selectTempTable = $pdo->prepare("SELECT * FROM Article_temp WHERE ID_ARTICLE = ?");
+                $selectTempTable->execute(array($ID));
+                $updateExist = $selectTempTable->rowCount();
+                if ($updateExist == 0) {
+                    if ((!empty($_POST["title"]) && $_POST["title"] !== $data["title"]) || (!empty($_POST["content"]) && $_POST["content"] !== $data["content"]) || (!empty($_FILES["image"]["tmp_name"])) && $data["ID_User"]) {
+                        $title = $_POST["title"];
+                        $content = $_POST["content"];
+                        if (!empty($_FILES["image"]["tmp_name"])) {
+                            $tmpName = $_FILES["image"]["tmp_name"];
+                            $name = $_FILES["image"]["name"];
+                            $size = $_FILES["image"]["size"];
+                            $tabExtension = explode('.', $name);
+                            $extension = strtolower(end($tabExtension));
+                            $extensions = ["jpg", "png", "jpeg"];
+                            $maxSize = 4000000;
+                            if (in_array($extension, $extensions) && $size <= $maxSize) {
+                                $uniqueName = uniqid("", true);
+                                $image = $uniqueName . "." . $extension;
+                                move_uploaded_file($tmpName, 'imgarticle/' . $image);
+                                $reqinsertTempTable = $pdo->prepare("INSERT INTO Article_temp (title, content, image, ID_ARTICLE) VALUES (?,?,?,?)");
+                                $reqinsertTempTable->execute(array($title, $content, $image, $ID));
+                                header("Location: article.php?id='$ID'");
+                            } else {
+                                $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
+                            }
+                        } else {
+                            $reqinsertTempTable = $pdo->prepare("INSERT INTO Article_temp (title, content, ID_ARTICLE) VALUES (?,?,?)");
+                            $reqinsertTempTable->execute(array($title, $content, $ID));
+                            header("Location: article.php?id='$ID'");
                         }
-                        $uniqueName = uniqid("", true);
-                        $image = $uniqueName . "." . $extension;
-                        move_uploaded_file($tmpName, 'imgarticle/' . $image);
-                        $reqinsert = $pdo->prepare("UPDATE Article SET title = ?, content = ?, image = ? WHERE ID = ?");
-                        $reqinsert->execute(array($title, $content, $image, $ID));
-                        header("Location: user.php");
                     } else {
-                        $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
+                        $error = "Veuillez remplir les champs";
                     }
                 } else {
-                    $reqinsert = $pdo->prepare("UPDATE Article SET title = ?, content = ? WHERE ID = ?");
-                    $reqinsert->execute(array($title, $content, $ID));
-                    header("Location: user.php");
+                    $error = "Modification déjà enregistrer, veuillez attendre la validation du modérateur.";
                 }
             } else {
-                $error = "Veuillez remplir les champs";
+                if (!empty($_POST["title"]) && !empty($_POST["content"])) {
+                    $title = $_POST["title"];
+                    $content = $_POST["content"];
+                    if (!empty($_FILES["image"]["tmp_name"])) {
+                        $tmpName = $_FILES["image"]["tmp_name"];
+                        $name = $_FILES["image"]["name"];
+                        $size = $_FILES["image"]["size"];
+                        $tabExtension = explode('.', $name);
+                        $extension = strtolower(end($tabExtension));
+                        $extensions = ["jpg", "png", "jpeg"];
+                        $maxSize = 4000000;
+                        if (in_array($extension, $extensions) && $size <= $maxSize) {
+                            if (!empty($data["image"])) {
+                                unlink('imgarticle/' . $data["image"]);
+                            }
+                            $uniqueName = uniqid("", true);
+                            $image = $uniqueName . "." . $extension;
+                            move_uploaded_file($tmpName, 'imgarticle/' . $image);
+                            $reqinsert = $pdo->prepare("UPDATE Article SET title = ?, content = ?, image = ? WHERE ID = ?");
+                            $reqinsert->execute(array($title, $content, $image, $ID));
+                            header("Location: article.php?id='$ID'");
+                        } else {
+                            $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
+                        }
+                    } else {
+                        $reqinsert = $pdo->prepare("UPDATE Article SET title = ?, content = ? WHERE ID = ?");
+                        $reqinsert->execute(array($title, $content, $ID));
+                        header("Location: article.php?id='$ID'");
+                    }
+                } else {
+                    $error = "Veuillez modifier les champs";
+                }
             }
         }
     }
 }
-
 
 ?>
 
@@ -79,6 +117,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             <input type="submit" value="Enregistrer" name="article">
 
         </form>
+        <a href="article.php?id='<?= $data["ID"] ?>'">Annuler</a>
     </div>
     <?php
     if (isset($error)) {

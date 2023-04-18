@@ -33,25 +33,25 @@ $data2 = $select2->fetchAll();
     <p>Bienvenue</p>
 
     <h1>Page de <?= $data["username"]; ?></h1>
-    <img src="./upload/<?= $data["avatar"]; ?>" alt="Photo profil de <?= $data["username"]; ?>">
+    <img src="./upload/<?= $data["avatar"]; ?>" alt="Photo profil de <?= $data["username"]; ?>"><br>
 
-    <a href="create.php">Créer un article</a>
-    <a href="updateuser.php">Modifier le profil</a>
-    <a href="deleteuser.php" onclick="return confirm('Vous confirmez la suppression de votre profil ?');">Supprimer le profil</a>
-    <a href="deconnexion.php">Se déconnecter</a>
+    <a href="create.php">Créer un article</a><br>
+    <a href="updateuser.php">Modifier le profil</a><br>
+    <a href="deleteuser.php" onclick="return confirm('Vous confirmez la suppression de votre profil ?');">Supprimer le profil</a><br>
+    <a href="deconnexion.php">Se déconnecter</a><br>
+    <?php if ($_SESSION["ID_Role"] === 2) : ?>
+        <a href="moderateur.php">Page Moderateur</a><br>
+    <?php endif; ?>
+    <?php if ($_SESSION["ID_Role"] === 3) : ?>
+        <a href="admin.php">Page Admin</a>
+    <?php endif; ?>
 
     <h2>Mes Articles</h2>
 
     <?php foreach ($data2 as $fetch) : ?>
         <div class="article">
             <h3><?= $fetch["title"] ?></h3>
-            <img src="./imgarticle/<?= $fetch["image"]; ?>" alt="Photo de l'article">
-            <p><?= $fetch["content"] ?></p>
-            <?php if ($fetch["ID_Moderation"] === 1) : ?>
-                <a href="publicate.php?id='<?= $fetch["ID"] ?>'">Publier</a>
-            <?php endif; ?>
-            <a href="updatearticle.php?id='<?= $fetch["ID"] ?>'">Modifier</a>
-            <a href="deletearticle.php?id='<?= $fetch["ID"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a>
+            <a href="article.php?id='<?= $fetch["ID"] ?>'">Aperçu article</a>
         </div>
     <?php endforeach; ?>
 
