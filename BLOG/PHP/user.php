@@ -36,8 +36,8 @@ $data2 = $select2->fetchAll();
     <img src="./upload/<?= $data["avatar"]; ?>" alt="Photo profil de <?= $data["username"]; ?>"><br>
 
     <a href="create.php">Créer un article</a><br>
-    <a href="updateuser.php">Modifier le profil</a><br>
-    <a href="deleteuser.php" onclick="return confirm('Vous confirmez la suppression de votre profil ?');">Supprimer le profil</a><br>
+    <a href="updateuser.php?id='<?= $data["ID"] ?>'">Modifier le profil</a><br>
+    <a href="deleteuser.php?id='<?= $data["ID"] ?>'" onclick="return confirm('Vous confirmez la suppression de votre profil ?');">Supprimer le profil</a><br>
     <a href="deconnexion.php">Se déconnecter</a><br>
     <?php if ($_SESSION["ID_Role"] === 2) : ?>
         <a href="moderateur.php">Page Moderateur</a><br>

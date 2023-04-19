@@ -3,6 +3,7 @@ session_start();
 
 require_once("bdd.php");
 
+
 if (isset($_POST["email"])) {
 
     $email = htmlspecialchars(trim($_POST["email"]));
@@ -21,7 +22,11 @@ if (isset($_POST["email"])) {
                 var_dump($data);
                 $_SESSION["ID"] = $data["ID"];
                 $_SESSION["ID_Role"] = $data["ID_Role"];
-                header("Location: user.php");
+                if ($_SESSION["ID_Role"] === 4) {
+                    header("Location: deconnexion.php");
+                } else {
+                    header("Location: user.php");
+                }
             } else {
                 $error = "Le mot de passe est incorrect";
             }

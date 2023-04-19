@@ -8,9 +8,21 @@ if (!isset($_SESSION["ID"])) {
     header("Location: deconnexion.php");
 }
 
-$select = $pdo->prepare("SELECT * FROM User WHERE ID = ?");
-$select->execute([$_SESSION["ID"]]);
-$data = $select->fetch();
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $ID = (int)substr($_GET['id'], 1, -1);
+    $select = $pdo->prepare("SELECT * FROM User WHERE ID = ?");
+    $select->execute(array($ID));
+    $data = $select->fetch();
+    $select2 = $pdo->prepare("Select r.nom FROM User u Join Role r ON u.ID_Role = r.ID WHERE u.ID = ?;");
+    $select2->execute(array($ID));
+    $data2 = $select2->fetch();
+    if ($_SESSION["ID"] !== $data["ID"] && $_SESSION["ID_Role"] < 3) {
+
+        header("Location: deconnexion.php");
+    }
+}
+
+
 
 /* Pseudo */
 
@@ -22,8 +34,8 @@ if (isset($_POST["pseudoupdate"])) {
         $pseudoexist = $reqpseudo->rowCount();
         if ($pseudoexist == 0) {
             $reqpseudoupdate = $pdo->prepare("UPDATE User SET username = ? WHERE ID = ?");
-            $reqpseudoupdate->execute(array($pseudo, $_SESSION["ID"]));
-            header("Location: updateuser.php");
+            $reqpseudoupdate->execute(array($pseudo, $ID));
+            header("Location: updateuser.php?id='$ID'");
         } else {
             $error = "Votre pseudo est déjà utilisé.";
         }
@@ -40,8 +52,8 @@ if (isset($_POST["emailupdate"])) {
         $emailexist = $reqemail->rowCount();
         if ($emailexist == 0) {
             $reqemailupdate = $pdo->prepare("UPDATE User SET email = ? WHERE ID = ?");
-            $reqemailupdate->execute(array($email, $_SESSION["ID"]));
-            header("Location: updateuser.php");
+            $reqemailupdate->execute(array($email, $ID));
+            header("Location: updateuser.php?id='$ID'");
         } else {
             $error = "Votre email est déjà utilisé.";
         }
@@ -62,8 +74,8 @@ if (isset($_POST["passwordupdate"])) {
                 } else {
                     $passwordhash = password_hash($password, PASSWORD_DEFAULT);
                     $reqpasswordupdate = $pdo->prepare("UPDATE User SET password = ? WHERE ID = ?");
-                    $reqpasswordupdate->execute(array($passwordhash, $_SESSION["ID"]));
-                    header("Location: updateuser.php");
+                    $reqpasswordupdate->execute(array($passwordhash, $ID));
+                    header("Location: updateuser.php?id='$ID'");
                 }
             } else {
                 $error = "Vos mots de passes sont différents";
@@ -92,13 +104,21 @@ if (isset($_POST["avatarupdate"]) && !empty($_FILES["avatar"]["tmp_name"])) {
         $avatar = $uniqueName . "." . $extension;
         move_uploaded_file($tmpName, 'upload/' . $avatar);
         $reqavatarupdate = $pdo->prepare("UPDATE User SET avatar = ? WHERE ID = ?");
-        $reqavatarupdate->execute(array($avatar, $_SESSION["ID"]));
-        header("Location: updateuser.php");
+        $reqavatarupdate->execute(array($avatar, $ID));
+        header("Location: updateuser.php?id='$ID'");
     } else {
         $error = "Mauvaise extension d'image (.jpg, .png, .jpeg) ou taille trop volumineuse";
     }
 }
 
+/* Role */
+
+if (isset($_POST["roleupdate"])) {
+    $role = $_POST["role"];
+    $reqroleupdate = $pdo->prepare("UPDATE User SET ID_Role = ? WHERE ID = ?");
+    $reqroleupdate->execute(array($role, $ID));
+    header("Location: updateuser.php?id='$ID'");
+}
 
 
 ?>
@@ -170,9 +190,34 @@ if (isset($_POST["avatarupdate"]) && !empty($_FILES["avatar"]["tmp_name"])) {
                 echo "<p style='color:red'>$error</p>";
             }
             ?>
+
         </dialog>
+        <?php if ($_SESSION["ID_Role"] === 3) : ?>
+            <h2>Role : <?= $data2["nom"] ?></h2>
+            <button id="update_role">Modifier</button><br>
+            <dialog id="rolemodal">
+                <form action="" method="POST">
+                    <input type="radio" name="role" id="role1" value="1" <?php if ($data["ID_Role"] === 1) : ?> checked="checked" <?php endif; ?>>Utilisateur
+                    <input type="radio" name="role" id="role2" value="2" <?php if ($data["ID_Role"] === 2) : ?> checked="checked" <?php endif; ?>>Moderateur
+                    <input type="radio" name="role" id="role3" value="3" <?php if ($data["ID_Role"] === 3) : ?> checked="checked" <?php endif; ?>>Admin
+                    <input type="radio" name="role" id="role4" value="4" <?php if ($data["ID_Role"] === 4) : ?> checked="checked" <?php endif; ?>>Ban
+                    <input type="submit" value="Valider" name="roleupdate">
+                    <button id="close_role">Annuler</button>
+                </form>
+                <?php
+                if (isset($error)) {
+                    echo "<p style='color:red'>$error</p>";
+                }
+                ?>
+            </dialog>
+        <?php endif; ?>
     </div>
-    <a href="user.php">Retour à ma page</a>
+    <?php if ($_SESSION["ID"] === $ID) : ?>
+        <a href="user.php">Retour à mon profil</a>
+    <?php endif; ?>
+    <?php if ($_SESSION["ID_Role"] === 3) : ?>
+        <a href="admin.php">Retour page admin</a>
+    <?php endif; ?>
     <script src="script.js"></script>
 </body>
 

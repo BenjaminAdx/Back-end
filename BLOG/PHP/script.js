@@ -72,3 +72,22 @@ avatarUpdateButton.addEventListener("click", function onOpen() {
 avatarClose.addEventListener("click", function onClose() {
     avatarDialog.close();
 })
+
+/* Modal mise à jour Role */
+
+let roleUpdateButton = document.querySelector("#update_role");
+let roleDialog = document.querySelector("#rolemodal");
+let roleClose = document.querySelector("#close_role");
+
+roleUpdateButton.addEventListener("click", function onOpen() {
+    if (typeof roleDialog.showModal === "function") {
+        roleDialog.showModal();
+    }
+    else {
+        console.error("L'API <dialog> n'est pas prise en charge par ce navigateur.");
+    }
+})
+
+roleClose.addEventListener("click", function onClose() {
+    roleDialog.close();
+})
