@@ -13,7 +13,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $select = $pdo->prepare("SELECT * FROM Article WHERE ID = ?");
     $select->execute(array($ID));
     $data = $select->fetch();
-    if ($_SESSION["ID"] !== $data["ID_User"] && $_SESSION["ID_Role"] !== 3) {
+    if ($_SESSION["ID"] !== $data["ID_User"] && $_SESSION["ID_Role"] < 2) {
 
         header("Location: deconnexion.php");
     } else {

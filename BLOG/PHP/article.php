@@ -39,10 +39,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         <p><?= $data["content"] ?></p>
         <?php if ($data["ID_Moderation"] === 1) : ?>
             <a href="publicate.php?id='<?= $data["ID"] ?>'">Publier</a>
-            <a href="deletearticle.php?id='<?= $fetch["ID"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a>
+            <a href="deletearticle.php?id='<?= $data["ID"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a>
         <?php endif; ?>
         <?php if ($data["ID_Moderation"] === 2 && $_SESSION["ID_Role"] > 1) : ?>
             <a href="validate.php?id='<?= $data["ID"] ?>'">Valider</a>
+            <a href="deletearticle.php?id='<?= $data["ID"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a>
         <?php endif; ?>
         <a href="updatearticle.php?id='<?= $data["ID"] ?>'">Modifier</a>
         <?php if ($_SESSION["ID"] === $ID) : ?>

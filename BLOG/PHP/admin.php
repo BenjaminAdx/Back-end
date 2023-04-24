@@ -8,23 +8,23 @@ if (!isset($_SESSION["ID"]) || $_SESSION["ID_Role"] !== 3) {
     header("Location: deconnexion.php");
 }
 
-$select = $pdo->prepare("Select u.ID, u.username, u.email, r.nom FROM User u Join Role r ON u.ID_Role = r.ID;");
+$select = $pdo->prepare("Select u.ID, u.username, u.email, r.nom FROM User u Join Role r ON u.ID_Role = r.ID ORDER BY u.ID;");
 $select->execute();
 $data = $select->fetchAll();
 
-$select2 = $pdo->prepare("SELECT * FROM Article WHERE ID_Moderation = 1");
+$select2 = $pdo->prepare("SELECT * FROM Article WHERE ID_Moderation = 1 ORDER BY ID");
 $select2->execute();
 $data2 = $select2->fetchAll();
 
-$select3 = $pdo->prepare("SELECT * FROM Article WHERE ID_Moderation = 2");
+$select3 = $pdo->prepare("SELECT * FROM Article WHERE ID_Moderation = 2 ORDER BY ID");
 $select3->execute();
 $data3 = $select3->fetchAll();
 
-$select4 = $pdo->prepare("SELECT * FROM Article WHERE ID_Moderation = 3");
+$select4 = $pdo->prepare("SELECT * FROM Article WHERE ID_Moderation = 3 ORDER BY ID");
 $select4->execute();
 $data4 = $select4->fetchAll();
 
-$select5 = $pdo->prepare("SELECT * FROM Article_temp");
+$select5 = $pdo->prepare("SELECT * FROM Article_temp ORDER BY ID");
 $select5->execute();
 $data5 = $select5->fetchAll();
 
@@ -36,13 +36,12 @@ $data5 = $select5->fetchAll();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Administrateur</title>
 </head>
 
 <body>
 
     <h1>Page Administrateur</h1>
-    <p>Bienvenue</p>
 
     <h2>Utilisateurs</h2>
     <table>
@@ -106,8 +105,7 @@ $data5 = $select5->fetchAll();
         <?php foreach ($data5 as $data5) : ?>
             <tr>
                 <td><?= $data5["title"] ?></td>
-                <td><a href="article.php?id='<?= $data5["ID_ARTICLE"] ?>'">Aperçu article</a></td>
-                <td><a href="deletearticle.php?id='<?= $data5["ID_ARTICLE"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a></td>
+                <td><a href="articlepubmod.php?id='<?= $data5["ID"] ?>'">Aperçu article</a></td>
             </tr>
         <?php endforeach; ?>
     </table>
@@ -127,6 +125,7 @@ $data5 = $select5->fetchAll();
             </tr>
         <?php endforeach; ?>
     </table>
+    <a href="user.php">Retour profil</a>
 </body>
 
 </html>

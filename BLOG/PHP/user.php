@@ -12,7 +12,7 @@ $select = $pdo->prepare("SELECT * FROM User WHERE ID = ?");
 $select->execute([$_SESSION["ID"]]);
 $data = $select->fetch();
 
-$select2 = $pdo->prepare("SELECT * FROM Article WHERE ID_User = ?");
+$select2 = $pdo->prepare("SELECT a.ID, a.title, m.etat FROM Article a JOIN Moderation m ON a.ID_Moderation = m.ID WHERE a.ID_User = ? ORDER BY m.etat;");
 $select2->execute([$_SESSION["ID"]]);
 $data2 = $select2->fetchAll();
 
@@ -50,7 +50,8 @@ $data2 = $select2->fetchAll();
 
     <?php foreach ($data2 as $fetch) : ?>
         <div class="article">
-            <h3><?= $fetch["title"] ?></h3>
+            <h3>Titre: <?= $fetch["title"] ?></h3>
+            <h3>Etat: <?= $fetch["etat"] ?></h3>
             <a href="article.php?id='<?= $fetch["ID"] ?>'">Aperçu article</a>
         </div>
     <?php endforeach; ?>
