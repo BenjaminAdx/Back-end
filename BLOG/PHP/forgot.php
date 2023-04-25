@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once("bdd.php");
 
@@ -7,29 +6,28 @@ require_once("bdd.php");
 if (isset($_POST["email"])) {
 
     $email = htmlspecialchars(trim($_POST["email"]));
-    $password = htmlspecialchars($_POST["password"]);
 
-    if (!empty($email) && !empty($password)) {
+    if (!empty($email)) {
 
         $select = $pdo->prepare("SELECT * FROM User WHERE email = ?");
         $select->execute([$email]);
         $data = $select->fetch();
+        $row = $select->rowCount();
 
-        if ($data) {
+        if ($row) {
+            $token = bin2hex(openssl_random_pseudo_bytes(24));
+            $dateExpiration = time() + 600;
+            $insert = $pdo->prepare("UPDATE User SET code = ? WHERE email = ?");
+            $insert->execute(array($token, $email));
 
-            $bddPassword = $data["password"];
-            if (password_verify($password, $bddPassword)) {
-                var_dump($data);
-                $_SESSION["ID"] = $data["ID"];
-                $_SESSION["ID_Role"] = $data["ID_Role"];
-                if ($_SESSION["ID_Role"] === 4) {
-                    header("Location: deconnexion.php");
-                } else {
-                    header("Location: index.php");
-                }
-            } else {
-                $error = "Le mot de passe est incorrect";
-            }
+            $link = 'recover.php?t=' . $token;
+            $subject = "Réinitialisation de votre mot de passe";
+            $message = '<h1>Réinitialisation de votre mot de passe</h1><p>Pour réinitialiser votre mot de passe, veuillez suivre ce lien <a href"' . $link . '">Par ici</a></p>';
+
+            $headers = 'From: Mon blog.com' . "\r\n";
+
+            mail($email, $subject, $message, $headers);
+            header("Location: index.php");
         } else {
 
             $error = "L'email n'existe pas  <a href='inscription.php'>cliquez ici pour vous inscrire<a>";
@@ -58,16 +56,14 @@ if (isset($_POST["email"])) {
 
 <body>
 
-    <h1>Connexion</h1>
+    <h1>Mot de passe oublié</h1>
 
 
     <form action="" method="POST">
         <input type="text" placeholder="Email" name="email"><br>
-        <input type="password" placeholder="Mot de passe" name="password"><br>
         <input type="submit">
 
     </form>
-    <a href="forgot.php">Mot de passe oublié</a>
 
     <?php
     if (isset($error)) {

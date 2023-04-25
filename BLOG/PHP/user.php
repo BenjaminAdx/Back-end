@@ -43,8 +43,9 @@ $data2 = $select2->fetchAll();
         <a href="moderateur.php">Page Moderateur</a><br>
     <?php endif; ?>
     <?php if ($_SESSION["ID_Role"] === 3) : ?>
-        <a href="admin.php">Page Admin</a>
+        <a href="admin.php">Page Admin</a><br>
     <?php endif; ?>
+    <a href="index.php">Retour acceuil</a>
 
     <h2>Mes Articles</h2>
 

@@ -7,12 +7,6 @@ $select = $pdo->prepare("SELECT a.title, a.content, a.image, a.date, a.ID, u.use
 $select->execute();
 $data = $select->fetchAll();
 
-foreach ($data as $data2) {
-    $selectCom = $pdo->prepare("SELECT COUNT(ID) AS 'total com' FROM Commentaires WHERE ID_Article = ?");
-    $selectCom->execute(array($data2["ID"]));
-    $dataCom = $selectCom->fetch();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -26,11 +20,21 @@ foreach ($data as $data2) {
 </head>
 
 <body>
-    <a href="inscription.php">S'inscrire</a>
-    <a href="connexion.php">Se connecter</a>
+    <?php if (!isset($_SESSION["ID"])) : ?>
+        <a href="inscription.php">S'inscrire</a>
+        <a href="connexion.php">Se connecter</a>
+    <?php endif; ?>
+    <?php if (isset($_SESSION["ID"])) : ?>
+        <a href="user.php">Profil</a>
+    <?php endif; ?>
+
 
     <h1>Bienvenue</h1>
-    <?php foreach ($data as $fetch) : ?>
+    <?php foreach ($data as $fetch) :
+        $selectCom = $pdo->prepare("SELECT COUNT(ID) AS 'total com' FROM Commentaires WHERE ID_Article = ?");
+        $selectCom->execute(array($fetch["ID"]));
+        $dataCom = $selectCom->fetch(); ?>
+
         <div>
             <h2><?= $fetch["title"] ?></h2>
             <img src="./imgarticle/<?= $fetch["image"]; ?>" alt="Photo de l'article">
