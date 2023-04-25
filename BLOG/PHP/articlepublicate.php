@@ -9,7 +9,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $select = $pdo->prepare("SELECT a.title, a.content, a.image, a.date, u.username FROM Article a JOIN User u ON a.ID_User = u.ID WHERE a.ID = ?");
     $select->execute(array($ID));
     $data = $select->fetch();
-    $select2 = $pdo->prepare("SELECT c.commentaire, u.username FROM Commentaires c JOIN User u ON c.ID_User = u.ID WHERE c.ID_Article = ?");
+    $select2 = $pdo->prepare("SELECT c.commentaire, c.ID, c.ID_User, u.username FROM Commentaires c JOIN User u ON c.ID_User = u.ID WHERE c.ID_Article = ?");
     $select2->execute(array($ID));
     $data2 = $select2->fetchAll();
 }
@@ -57,6 +57,9 @@ if (isset($_POST["commentaire"])) {
         <?php foreach ($data2 as $fetch) : ?>
             <p><?= $fetch["commentaire"] ?></p>
             <p>Ecrit par : <?= $fetch["username"] ?></p>
+            <?php if ($_SESSION["ID_Role"] > 1 || $_SESSION["ID"] === $fetch["ID_User"]) : ?>
+                <a href="deletecom.php?id='<?= $fetch["ID"] ?>'">Supprimer commentaire</a>
+            <?php endif; ?>
         <?php endforeach; ?>
         <form action="" method="POST">
             <textarea name="comtxt" id="comtxt" cols="30" rows="10">Ecrire un commentaire</textarea><br>

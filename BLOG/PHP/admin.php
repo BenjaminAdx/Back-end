@@ -120,7 +120,7 @@ $data5 = $select5->fetchAll();
         <?php foreach ($data4 as $data4) : ?>
             <tr>
                 <td><?= $data4["title"] ?></td>
-                <td><a href="article.php?id='<?= $data4["ID"] ?>'">Aperçu article</a></td>
+                <td><a href="articlepublicate.php?id='<?= $data4["ID"] ?>'">Voir article</a></td>
                 <td><a href="deletearticle.php?id='<?= $data4["ID"] ?>'" onclick="return confirm('Vous confirmez la suppresion de cet article ?');">Supprimer</a></td>
             </tr>
         <?php endforeach; ?>
