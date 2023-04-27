@@ -22,9 +22,12 @@ if (isset($_POST["email"])) {
 
             $link = 'recover.php?t=' . $token;
             $subject = "Réinitialisation de votre mot de passe";
-            $message = '<h1>Réinitialisation de votre mot de passe</h1><p>Pour réinitialiser votre mot de passe, veuillez suivre ce lien <a href"' . $link . '">Par ici</a></p>';
+            $message = '<h1>Réinitialisation de votre mot de passe</h1><p>Pour réinitialiser votre mot de passe, veuillez suivre ce lien <a href="' . $link . '">Par ici</a></p>';
 
-            $headers = 'From: Mon blog.com' . "\r\n";
+            $headers = "From: Mon blog.com\n";
+            $headers .= "Content-type: text/html; charset=utf-8\n";
+
+
 
             mail($email, $subject, $message, $headers);
             header("Location: index.php");
