@@ -1,6 +1,12 @@
 <?php
+session_start();
 
 require_once("bdd.php");
+
+if (isset($_SESSION["ID"])) {
+
+    header("Location: deconnexion.php");
+}
 
 
 if (isset($_POST["email"])) {
@@ -15,22 +21,27 @@ if (isset($_POST["email"])) {
         $row = $select->rowCount();
 
         if ($row) {
-            $token = bin2hex(openssl_random_pseudo_bytes(24));
-            $dateExpiration = time() + 600;
-            $insert = $pdo->prepare("UPDATE User SET code = ? WHERE email = ?");
-            $insert->execute(array($token, $email));
+            if (empty($data["code"])) {
+                $token = bin2hex(openssl_random_pseudo_bytes(24));
+                $dateExpiration = time() + 600;
+                var_dump(time());
+                $insert = $pdo->prepare("UPDATE User SET code = ?, expiration_time = ? WHERE email = ?");
+                $insert->execute(array($token, $dateExpiration, $email));
 
-            $link = 'recover.php?t=' . $token;
-            $subject = "Réinitialisation de votre mot de passe";
-            $message = '<h1>Réinitialisation de votre mot de passe</h1><p>Pour réinitialiser votre mot de passe, veuillez suivre ce lien <a href="' . $link . '">Par ici</a></p>';
+                $link = 'recover.php?to=' . $token;
+                $subject = "Réinitialisation de votre mot de passe";
+                $message = '<h1>Réinitialisation de votre mot de passe</h1><p>Pour réinitialiser votre mot de passe, veuillez suivre ce lien <a href="' . $link . '">Par ici</a><br>Attention valable uniquement pendant 10 minutes.</p>';
 
-            $headers = "From: Mon blog.com\n";
-            $headers .= "Content-type: text/html; charset=utf-8\n";
+                $headers = "From: Mon blog.com\n";
+                $headers .= "Content-type: text/html; charset=utf-8\n";
 
 
 
-            mail($email, $subject, $message, $headers);
-            header("Location: index.php");
+                mail($email, $subject, $message, $headers);
+                header("Location: index.php");
+            } else {
+                $error = "Un lien valide pour réinitialiser votre mot de passe a déjà été envoyé sur votre adresse email.";
+            }
         } else {
 
             $error = "L'email n'existe pas  <a href='inscription.php'>cliquez ici pour vous inscrire<a>";
