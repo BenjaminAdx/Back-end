@@ -32,9 +32,7 @@ if (isset($_POST["passwordupdate"])) {
                     $passwordhash = password_hash($password, PASSWORD_DEFAULT);
                     $reqpasswordupdate = $pdo->prepare("UPDATE User SET password = ?, code = NULL, expiration_time = NULL WHERE ID = ?");
                     $reqpasswordupdate->execute(array($passwordhash, $ID));
-                    $_SESSION = [];
-                    session_destroy();
-                    header("Location: index.php");
+                    header("Location: deconnexion.php");
                 }
             } else {
                 $error = "Vos mots de passes sont différents";
