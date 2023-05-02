@@ -42,8 +42,11 @@ $data = $select->fetchAll();
             <p>Ecrit par : <?= $fetch["username"] ?></p>
             <p>Nombre de commentaires : <?= $dataCom["total com"] ?></p>
             <a href="articlepublicate.php?id='<?= $fetch["ID"] ?>'">Voir l'article</a>
+            <img src="./assets/thumbs-up-regular.svg" class="like" idArticle="<?= $fetch["ID"] ?>" idUser="<?= $_SESSION["ID"] ?>" alt="image pouce like"></img>
         </div>
     <?php endforeach; ?>
+
+    <script src="ajax.js"></script>
 </body>
 
 </html>
