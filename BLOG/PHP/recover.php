@@ -23,7 +23,7 @@ if (isset($_GET["to"]) && !empty($_GET["to"])) {
         } else {
             $delete = $pdo->prepare("UPDATE User SET code = NULL, expiration_time = NULL WHERE ID = ?");
             $delete->execute(array($ID));
-            header("Location: connexion.php");
+            header("Location: forgot.php");
         }
     } else {
         header("Location: connexion.php");
