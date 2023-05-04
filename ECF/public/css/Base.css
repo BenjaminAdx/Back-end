@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 25px;
+  box-sizing: border-box;
+  background: coral;
+  display: flex;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+nav p {
+  color: gold;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+}
+
+main {
+  width: 100%;
+  padding: 25px;
+  margin-left: 5px;
+  background: white;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+}

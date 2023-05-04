@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="public/css/Produits.css">
+<h1>Bonjour, <?= $_SESSION["nom"] ?></h1>
+<?php
+if (isset($message)) {
+    echo "<p style='color:green'>$message</p>";
+}
+?>
+<table>
+    <th>Nom</th>
+    <th>Reference</th>
+    <th>Prix Hors Taxe</th>
+    <th>Stock</th>
+    <?php foreach ($result as $res) : ?>
+        <tr <?php if ($res["stock"] <= $res["alerte"]) : ?> class="alerte" <?php endif ?>>
+            <td><?= $res["name"] ?></td>
+            <td><?= $res["reference"] ?></td>
+            <td><?= $res["price_ht"] ?></td>
+            <td><?= $res["stock"] ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

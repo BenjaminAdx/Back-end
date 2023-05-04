@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="public/css/Index.css">
+<h1>Veuillez enregistrer un nouveau client</h1>
+<form action="/Back-end/ECF/Customers/registerPost" method="POST">
+    <input type="text" name="nom" id="" placeholder="nom" required>
+    <input type="text" name="prenom" id="" placeholder="prenom" required>
+    <input type="text" name="adresse1" id="" placeholder="adresse" required>
+    <input type="text" name="adresse2" id="" placeholder="complément d'adresse">
+    <input type="number" name="code" id="" placeholder="code postal" required>
+    <input type="text" name="ville" id="" placeholder="ville" required>
+    <input type="email" name="email" id="" placeholder="email">
+    <input type="tel" name="telephone" id="" placeholder="telephone">
+    <input type="submit" value="Enregistrer">
+    <?php
+    if (isset($erreur)) {
+        echo "<p style='color:red'>$erreur</p>";
+    }
+    ?>
+</form>

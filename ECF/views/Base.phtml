@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECF</title>
+    <base href="http://localhost/Back-end/ECF/">
+    <link rel="stylesheet" href="public/css/Base.css">
+</head>
+
+<body>
+    <nav>
+        <?php if (isset($_SESSION["id"])) : ?>
+            <?php if ($_SESSION["role"] === 1) : ?>
+                <a href="http://localhost/Back-end/ECF/Produits/Produits">Accueil</a>
+                <a href="http://localhost/Back-end/ECF/Customers/register">Enregistrer un client</a>
+                <a href="">Facturation</a>
+                <a href="">Mes ventes</a>
+            <?php endif; ?>
+            <a href="http://localhost/Back-end/ECF/Users/deconnexion">Deconnexion</a>
+        <?php endif; ?>
+    </nav>
+
+
+    <main>
+        <?php require_once $page; ?>
+    </main>
+
+
+
+</body>
+
+</html>
