@@ -7,3 +7,6 @@ table {
 .alerte {
   background-color: red;
 }
+.stockOk {
+  background-color: green;
+}

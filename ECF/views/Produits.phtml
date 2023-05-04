@@ -11,7 +11,7 @@ if (isset($message)) {
     <th>Prix Hors Taxe</th>
     <th>Stock</th>
     <?php foreach ($result as $res) : ?>
-        <tr <?php if ($res["stock"] <= $res["alerte"]) : ?> class="alerte" <?php endif ?>>
+        <tr <?php if ($res["stock"] <= $res["alerte"]) : ?> class="alerte" <?php endif; ?><?php if ($res["stock"] > $res["alerte"]) : ?> class="stockOk" <?php endif; ?>>
             <td><?= $res["name"] ?></td>
             <td><?= $res["reference"] ?></td>
             <td><?= $res["price_ht"] ?></td>
