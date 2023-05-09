@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 25px;
   box-sizing: border-box;
-  background: coral;
+  background: rgb(102, 109, 205);
   display: flex;
   align-items: center;
 }

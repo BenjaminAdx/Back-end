@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="public/css/Index.css">
+<h1>Veuillez enregistrer un nouveau produit</h1>
+<form action="/Back-end/ECF/Produits/ajoutProduitsPost" method="POST">
+    <input type="text" name="name" id="" placeholder="nom" required>
+    <input type="text" name="reference" id="" placeholder="référence" required>
+    <input type="number" name="price_ht" id="" placeholder="prix hors taxe (2 décimals et séparé par un point)" step="0.01" required>
+    <input type="number" name="stock" id="" placeholder="stock" required>
+    <input type="number" name="alerte" id="" placeholder="stock alerte" required>
+    <input type="number" name="id_tva" id="" placeholder="Tva 10% = 1, 20% = 2" required>
+    <input type="submit" value="Enregistrer">
+</form>

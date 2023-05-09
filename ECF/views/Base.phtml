@@ -14,11 +14,17 @@
 <body>
     <nav>
         <?php if (isset($_SESSION["id"])) : ?>
-            <?php if ($_SESSION["role"] === 1) : ?>
+            <?php if ($_SESSION["role"] >= 1) : ?>
                 <a href="http://localhost/Back-end/ECF/Produits/Produits">Accueil</a>
                 <a href="http://localhost/Back-end/ECF/Customers/register">Enregistrer un client</a>
-                <a href="">Facturation</a>
+                <a href="http://localhost/Back-end/ECF/Customers/Customers">Facturation</a>
                 <a href="">Mes ventes</a>
+            <?php endif; ?>
+            <?php if ($_SESSION["role"] === 2) : ?>
+                <a href="">Ventes journalières</a>
+                <a href="">Ventes mensuels et TVA</a>
+                <a href="">Ventes annuelles</a>
+                <a href="">Ventes cummulés par vendeur</a>
             <?php endif; ?>
             <a href="http://localhost/Back-end/ECF/Users/deconnexion">Deconnexion</a>
         <?php endif; ?>

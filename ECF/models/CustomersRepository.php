@@ -15,9 +15,15 @@ class CustomersRepository
     }
     public function registerCustomer($nom, $prenom, $adresse1, $adresse2, $code, $ville, $email, $telephone)
     {
-        $select = $this->bdd->prepare("INSERT INTO clients (nom, prenom, adresse1, adresse2, code_postal, ville, email, telephone) VALUES (?,?,?,?,?,?,?,?)");
-        $select->execute(array($nom, $prenom, $adresse1, $adresse2, $code, $ville, $email, $telephone));
+        $req = $this->bdd->prepare("INSERT INTO clients (nom, prenom, adresse1, adresse2, code_postal, ville, email, telephone) VALUES (?,?,?,?,?,?,?,?)");
+        $req->execute(array($nom, $prenom, $adresse1, $adresse2, $code, $ville, $email, $telephone));
 
         return $message = "client ajouté avec succès";
+    }
+    public function findAll()
+    {
+        $select = $this->bdd->prepare("SELECT * FROM clients");
+        $select->execute();
+        return $select->fetchAll();
     }
 }

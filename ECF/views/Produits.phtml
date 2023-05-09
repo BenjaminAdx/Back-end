@@ -9,13 +9,26 @@ if (isset($message)) {
     <th>Nom</th>
     <th>Reference</th>
     <th>Prix Hors Taxe</th>
-    <th>Stock</th>
+    <th>Stock actuel</th>
+    <th>Niveau d'alerte</th>
+    <?php if ($_SESSION["role"] === 2) : ?>
+        <th></th>
+        <th></th>
+    <?php endif; ?>
     <?php foreach ($result as $res) : ?>
         <tr <?php if ($res["stock"] <= $res["alerte"]) : ?> class="alerte" <?php endif; ?><?php if ($res["stock"] > $res["alerte"]) : ?> class="stockOk" <?php endif; ?>>
             <td><?= $res["name"] ?></td>
             <td><?= $res["reference"] ?></td>
             <td><?= $res["price_ht"] ?></td>
             <td><?= $res["stock"] ?></td>
+            <td><?= $res["alerte"] ?></td>
+            <?php if ($_SESSION["role"] === 2) : ?>
+                <td><a href="http://localhost/Back-end/ECF/Produits/modifierProduits/<?= $res["id"] ?>">Modifier</a></td>
+                <td><a href="http://localhost/Back-end/ECF/Produits/suppressionProduits/<?= $res["id"] ?>">Supprimer</a></td>
+            <?php endif; ?>
         </tr>
     <?php endforeach; ?>
 </table>
+<?php if ($_SESSION["role"] === 2) : ?>
+    <p><a href="http://localhost/Back-end/ECF/Produits/ajoutProduits">Ajouter un produit</a></p>
+<?php endif; ?>

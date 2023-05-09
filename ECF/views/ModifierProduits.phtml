@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="public/css/Index.css">
+<h1>Veuillez modifier le produit suivant <?= $result["name"] ?></h1>
+<form action="/Back-end/ECF/Produits/modifierProduitsPost/<?= $result["id"] ?>" method="POST">
+    <input type="text" name="name" id="" placeholder="nom" required value="<?= $result["name"] ?>">
+    <input type="text" name="reference" id="" placeholder="référence" required value="<?= $result["reference"] ?>">
+    <input type="number" name="price_ht" id="" placeholder="prix hors taxe (2 décimals et séparé par un point)" step="0.01" required value="<?= $result["price_ht"] ?>">
+    <input type="number" name="stock" id="" placeholder="stock" required value="<?= $result["stock"] ?>">
+    <input type="number" name="alerte" id="" placeholder="stock alerte" required value="<?= $result["alerte"] ?>">
+    <input type="number" name="id_tva" id="" placeholder="Tva 10% = 1, 20% = 2" required value="<?= $result["id_tva"] ?>">
+    <input type="submit" value="Modifier">
+</form>
