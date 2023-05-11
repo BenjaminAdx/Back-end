@@ -7,3 +7,6 @@ form {
 input {
   background: white;
 }
+* {
+  color: rgb(102, 109, 205);
+}

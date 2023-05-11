@@ -16,8 +16,8 @@
             <td><?= $res["ville"] ?></td>
             <td><?= $res["email"] ?></td>
             <td><?= $res["telephone"] ?></td>
-            <td><a href="http://localhost/Back-end/ECF/Factures/facture/<?= $res["id"] ?>">Toutes ces factures</a></td>
-            <td><a href="http://localhost/Back-end/ECF/Factures/facture/<?= $res["id"] ?>">Nouvelle facture</a></td>
+            <td><a href="http://localhost/Back-end/ECF/Factures/showFactures/<?= $res["id"] ?>">Toutes ces factures</a></td>
+            <td><a href="http://localhost/Back-end/ECF/Factures/createFacture/<?= $res["id"] ?>">Nouvelle facture</a></td>
         </tr>
     <?php endforeach; ?>
 </table>

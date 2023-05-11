@@ -2,17 +2,25 @@ let url = window.location.href;
 let urlParts = url.split("/");
 let lastValue = urlParts[urlParts.length - 1];
 
-let urlFetch = "Back-end/ECF/Factures/facture/" + lastValue;
+let urlFetch = "/Back-end/ECF/Factures/facture/" + lastValue;
+
+console.log(urlFetch);
 
 
-fetch(urlFetch)
+fetch(urlFetch, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin'
+})
     .then(function (response) {
         return response.json();
     })
     .then(function (produits) {
-        const ligneProduitEl = document.querySelector('.ligne_produit');
+        const ligneProduitEl = document.querySelector('.ligne_produit_1');
         const selectProduitEl = document.createElement('select');
-        selectProduitEl.name = 'produits';
+        selectProduitEl.name = 'produit_1';
 
         produits.forEach((produit) => {
             const optionProduit = document.createElement('option');
@@ -22,7 +30,7 @@ fetch(urlFetch)
         });
         const quantiteInput = document.createElement('input');
         quantiteInput.type = 'number';
-        quantiteInput.name = 'quantite';
+        quantiteInput.name = 'quantite_1';
         quantiteInput.required = true;
 
 
@@ -41,7 +49,7 @@ fetch(urlFetch)
             ligneProduit.classList.add('ligne_produit_' + indexligne);
 
             const selectProduit = document.createElement('select');
-            selectProduit.name = 'produits_' + indexligne;
+            selectProduit.name = 'produit_' + indexligne;
 
             produits.forEach((produit) => {
                 const optionProduit = document.createElement('option');

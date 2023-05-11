@@ -20,4 +20,16 @@ class UsersRepository
 
         return $select->fetch();
     }
+    public function checkConnexion($id)
+    {
+        if (!isset($id)) {
+            return header("Location: /Back-end/ECF/Users/deconnexion");
+        }
+    }
+    public function checkRole($idr)
+    {
+        if ($idr < 2) {
+            return header("Location: /Back-end/ECF/Users/deconnexion");
+        }
+    }
 }

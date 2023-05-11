@@ -26,4 +26,10 @@ class CustomersRepository
         $select->execute();
         return $select->fetchAll();
     }
+    public function find($id)
+    {
+        $sel = $this->bdd->prepare("SELECT * FROM clients WHERE id = ?");
+        $sel->execute(array($id));
+        return $sel->fetch();
+    }
 }

@@ -1,10 +1,15 @@
 <link rel="stylesheet" href="public/css/Factures.css">
-<h1>Entrer chaque produits et leurs quantités pour générer la facture</h1>
-<form action="/Back-end/ECF/Produits/ajoutProduitsPost" method="POST">
-    <a href="" class="ajout_ligne">Ajouter une nouvelle ligne de produit</a>
-    <div class="ligne_produit">
+<h1>Entrer chaque produit et leurs quantités pour générer la facture</h1>
+<form action="/Back-end/ECF/Factures/createFacturePost/<?= $id ?>" method="POST">
+    <div>
+        <h2 id="nom_produit">Produit</h2>
+        <h2 id="quantite_produit">Quantités</h2>
     </div>
-    <input type="submit" value="Valider la facture">
+    <div class="ligne_produit_1">
+    </div>
+    <img src="public/assets/square-plus-solid.svg" alt="icône plus" class="ajout_ligne">
+    <input type="submit" value="Valider la facture" id="submit">
 
 </form>
 <script src="public/javascript/Factures.js"></script>
+<p><?= var_dump($_POST) ?></p>

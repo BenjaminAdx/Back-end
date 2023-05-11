@@ -3,68 +3,60 @@
 namespace controllers;
 
 use models\ProduitsRepository;
+use models\UsersRepository;
 
 class ProduitsController
 {
+
+    private $connexion;
+    private $produit;
+
+    public function __construct()
+    {
+        $this->connexion = new UsersRepository();
+        $this->produit = new ProduitsRepository();
+    }
     public function produits()
     {
-        if (!isset($_SESSION["id"])) {
-            return header("Location: /Back-end/ECF/Users/deconnexion");
-        } else {
-            $produit = new ProduitsRepository();
-            $result = $produit->findAll();
-            $page = "views/Produits.phtml";
-            require_once "views/Base.phtml";
-        }
+        $this->connexion->checkConnexion($_SESSION["id"]);
+        $result = $this->produit->findAll();
+        $page = "views/Produits.phtml";
+        require_once "views/Base.phtml";
     }
     public function ajoutProduits()
     {
-        if (!isset($_SESSION["id"]) || ($_SESSION["role"] < 2)) {
-            return header("Location: /Back-end/ECF/Users/deconnexion");
-        } else {
-            $page = "views/AjoutProduits.phtml";
-            require_once "views/Base.phtml";
-        }
+        $this->connexion->checkConnexion($_SESSION["id"]);
+        $this->connexion->checkRole($_SESSION["role"]);
+        $page = "views/AjoutProduits.phtml";
+        require_once "views/Base.phtml";
     }
     public function ajoutProduitsPost()
     {
-        if (!isset($_SESSION["id"]) || ($_SESSION["role"] < 2)) {
-            return header("Location: /Back-end/ECF/Users/deconnexion");
-        } else {
-            $produit = new ProduitsRepository();
-            $register = $produit->addProduct($_POST["name"], $_POST["reference"], $_POST["price_ht"], $_POST["stock"], $_POST["alerte"], $_POST["id_tva"]);
-            return header("Location: /Back-end/ECF/Produits/Produits");
-        }
+        $this->connexion->checkConnexion($_SESSION["id"]);
+        $this->connexion->checkRole($_SESSION["role"]);
+        $register = $this->produit->addProduct($_POST["name"], $_POST["reference"], $_POST["price_ht"], $_POST["stock"], $_POST["alerte"], $_POST["id_tva"]);
+        return header("Location: /Back-end/ECF/Produits/Produits");
     }
     public function suppressionProduits($id)
     {
-        if (!isset($_SESSION["id"]) || ($_SESSION["role"] < 2)) {
-            return header("Location: /Back-end/ECF/Users/deconnexion");
-        } else {
-            $produit = new ProduitsRepository();
-            $supprimer = $produit->deleteProduct($id);
-            return header("Location: /Back-end/ECF/Produits/Produits");
-        }
+        $this->connexion->checkConnexion($_SESSION["id"]);
+        $this->connexion->checkRole($_SESSION["role"]);
+        $supprimer = $this->produit->deleteProduct($id);
+        return header("Location: /Back-end/ECF/Produits/Produits");
     }
     public function modifierProduits($id)
     {
-        if (!isset($_SESSION["id"]) || ($_SESSION["role"] < 2)) {
-            return header("Location: /Back-end/ECF/Users/deconnexion");
-        } else {
-            $produit = new ProduitsRepository();
-            $result = $produit->find($id);
-            $page = "views/ModifierProduits.phtml";
-            require_once "views/Base.phtml";
-        }
+        $this->connexion->checkConnexion($_SESSION["id"]);
+        $this->connexion->checkRole($_SESSION["role"]);
+        $result = $this->produit->find($id);
+        $page = "views/ModifierProduits.phtml";
+        require_once "views/Base.phtml";
     }
     public function modifierProduitsPost($id)
     {
-        if (!isset($_SESSION["id"]) || ($_SESSION["role"] < 2)) {
-            return header("Location: /Back-end/ECF/Users/deconnexion");
-        } else {
-            $produit = new ProduitsRepository();
-            $mod = $produit->modProduct($_POST["name"], $_POST["reference"], $_POST["price_ht"], $_POST["stock"], $_POST["alerte"], $_POST["id_tva"], $id);
-            return header("Location: /Back-end/ECF/Produits/Produits");
-        }
+        $this->connexion->checkConnexion($_SESSION["id"]);
+        $this->connexion->checkRole($_SESSION["role"]);
+        $mod = $this->produit->modProduct($_POST["name"], $_POST["reference"], $_POST["price_ht"], $_POST["stock"], $_POST["alerte"], $_POST["id_tva"], $id);
+        return header("Location: /Back-end/ECF/Produits/Produits");
     }
 }

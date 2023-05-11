@@ -44,4 +44,9 @@ class ProduitsRepository
         $mod->execute(array($name, $reference, $price_ht, $stock, $alerte, $id_tva, $id));
         return $message = "produit modifier avec succès";
     }
+    public function modStock($quantite, $id)
+    {
+        $stock = $this->bdd->prepare("UPDATE produits SET stock = stock - ? WHERE id = ?");
+        $stock->execute(array($quantite, $id));
+    }
 }

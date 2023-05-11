@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="public/css/Customers.css">
+<h1>Les factures de <?= $data["nom"] ?> <?= $data["prenom"] ?></h1>
+<table>
+    <th>Date</th>
+    <th>Prix HT</th>
+    <th>Prix TTC</th>
+    <th>Details</th>
+    <?php foreach ($result as $res) : ?>
+        <tr class="customer">
+            <td><?= $res["date"] ?></td>
+            <td><?= $res["prix_ht"] ?></td>
+            <td><?= $res["prix_ttc"] ?></td>
+            <td><a href="http://localhost/Back-end/ECF/Factures/showFactureDetail/<?= $res["id"] ?>"><img src="public/assets/magnifying-glass-dollar-solid.svg" alt="icône loupe"></a></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

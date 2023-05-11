@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Facture VéloShop</title>
+    <base href="http://localhost/Back-end/ECF/">
+    <link rel="stylesheet" href="public/css/FactureDetail.css">
+</head>
+
+<body>
+    <header>
+        <div class="company-info">
+            <h1>VéloShop</h1>
+            <p>1 Rue des Cyclistes<br>13000 Marseille<br>Tél: 04 23 45 67 89<br>Email: info@veloshop.com</p>
+        </div>
+        <div class="client-info">
+            <p>Nom: <?= $resClient["nom"] ?><br>Adresse: <?= $resClient["adresse1"] ?><br><?= $resClient["code_postal"] ?> <?= $resClient["ville"] ?><br>Tél: <?= $resClient["telephone"] ?><br>Email: <?= $resClient["email"] ?></p>
+        </div>
+    </header>
+    <main>
+        <section class="order-details">
+            <h2>Détails de la commande</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix HT</th>
+                        <th>TVA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($resProduit as $result) : ?>
+                        <tr>
+                            <td><?= $result["name"] ?></td>
+                            <td><?= $result["quantité"] ?></td>
+                            <td><?= $result["price_ht"] ?> €</td>
+                            <td><?= $result["taux"] ?> %</td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+        <h2>Résumé de la commande</h2>
+        <section class="order-details">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Numéro de commande</th>
+                        <th>Prix Total HT</th>
+                        <th>Prix Total TCC</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><?= $resFacture["id"] ?></td>
+                        <td><?= $resFacture["prix_ht"] ?> €</td>
+                        <td><?= $resFacture["prix_ttc"] ?> €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>Facture émise le <?= $resFacture["date"] ?><br>Numéro de facture: <?= $resFacture["id"] ?></p>
+    </footer>
+    <a href="http://localhost/Back-end/ECF/Factures/showFactures/<?= $resClient["id"] ?>">Retour factures client</a>
+</body>
+
+</html>

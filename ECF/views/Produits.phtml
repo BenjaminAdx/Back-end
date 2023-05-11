@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="public/css/Produits.css">
-<h1>Bonjour, <?= $_SESSION["nom"] ?></h1>
+<h1>Bonjour <?= $_SESSION["nom"] ?></h1>
 <?php
 if (isset($message)) {
     echo "<p style='color:green'>$message</p>";
@@ -23,12 +23,12 @@ if (isset($message)) {
             <td><?= $res["stock"] ?></td>
             <td><?= $res["alerte"] ?></td>
             <?php if ($_SESSION["role"] === 2) : ?>
-                <td><a href="http://localhost/Back-end/ECF/Produits/modifierProduits/<?= $res["id"] ?>">Modifier</a></td>
-                <td><a href="http://localhost/Back-end/ECF/Produits/suppressionProduits/<?= $res["id"] ?>">Supprimer</a></td>
+                <td><a href="http://localhost/Back-end/ECF/Produits/modifierProduits/<?= $res["id"] ?>"><img src="public/assets/pen-to-square-solid.svg" alt="icône stylo modifier"></a></td>
+                <td><a href="http://localhost/Back-end/ECF/Produits/suppressionProduits/<?= $res["id"] ?>"><img src="public/assets/square-minus-solid.svg" alt="icône moins"></a></td>
             <?php endif; ?>
         </tr>
     <?php endforeach; ?>
 </table>
 <?php if ($_SESSION["role"] === 2) : ?>
-    <p><a href="http://localhost/Back-end/ECF/Produits/ajoutProduits">Ajouter un produit</a></p>
+    <a href="http://localhost/Back-end/ECF/Produits/ajoutProduits"><img src="public/assets/square-plus-solid.svg" alt="icône plus"></a>
 <?php endif; ?>

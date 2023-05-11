@@ -10,3 +10,11 @@ table {
 .stockOk {
   background-color: green;
 }
+img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+h1 {
+  text-align: center;
+}
