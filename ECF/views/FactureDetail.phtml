@@ -11,11 +11,11 @@
 <body>
     <header>
         <div class="company-info">
-            <h1>VéloShop</h1>
-            <p>1 Rue des Cyclistes<br>13000 Marseille<br>Tél: 04 23 45 67 89<br>Email: info@veloshop.com</p>
+            <h1>La pédale joyeuse</h1>
+            <p>1 Rue des Cyclistes<br>13000 Marseille<br>Tél: 04 23 45 67 89<br>Email: info@pdj.com</p>
         </div>
         <div class="client-info">
-            <p>Nom: <?= $resClient["nom"] ?><br>Adresse: <?= $resClient["adresse1"] ?><br><?= $resClient["code_postal"] ?> <?= $resClient["ville"] ?><br>Tél: <?= $resClient["telephone"] ?><br>Email: <?= $resClient["email"] ?></p>
+            <p>Nom: <?= $resClient["nom"] ?><br>Prénom: <?= $resClient["prenom"] ?><br>Adresse: <?= $resClient["adresse1"] ?><br><?= $resClient["code_postal"] ?> <?= $resClient["ville"] ?><br>Tél: <?= $resClient["telephone"] ?><br>Email: <?= $resClient["email"] ?></p>
         </div>
     </header>
     <main>
@@ -64,7 +64,7 @@
         </section>
     </main>
     <footer>
-        <p>Facture émise le <?= $resFacture["date"] ?><br>Numéro de facture: <?= $resFacture["id"] ?></p>
+        <p>Facture émise le <?= $resFacture["date"] ?></p>
     </footer>
     <a href="http://localhost/Back-end/ECF/Factures/showFactures/<?= $resClient["id"] ?>">Retour factures client</a>
 </body>

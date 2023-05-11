@@ -12,19 +12,20 @@ class FacturesController
     private $connexion;
     private $facture;
     private $client;
+    private $produit;
 
     public function __construct()
     {
         $this->connexion = new UsersRepository();
         $this->facture = new FacturesRepository();
         $this->client = new CustomersRepository();
+        $this->produit = new ProduitsRepository();
     }
 
     public function facture($id)
     {
         $this->connexion->checkConnexion($_SESSION["id"]);
-        $produit = new ProduitsRepository();
-        $result = $produit->findAll();
+        $result = $this->produit->findAll();
         echo json_encode($result);
     }
 

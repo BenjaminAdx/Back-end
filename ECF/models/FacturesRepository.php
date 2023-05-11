@@ -46,6 +46,12 @@ class FacturesRepository
         $mod = $this->bdd->prepare("UPDATE facture SET prix_ht = ?, prix_ttc = ? WHERE id = ?");
         $mod->execute(array($HT, $TTC, $idf));
     }
+    public function findAll()
+    {
+        $select = $this->bdd->prepare("SELECT * FROM facture");
+        $select->execute();
+        return $select->fetchAll();
+    }
     public function findAllByClient($idc)
     {
         $sel = $this->bdd->prepare("SELECT * FROM facture WHERE id_clients = ?");
@@ -57,5 +63,42 @@ class FacturesRepository
         $sel = $this->bdd->prepare("SELECT * FROM facture WHERE id = ?");
         $sel->execute(array($idf));
         return $sel->fetch();
+    }
+    public function findAllByDay()
+    {
+        $sel = $this->bdd->prepare("SELECT * FROM facture WHERE DAY(date) = DAY(NOW()) AND MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW())");
+        $sel->execute();
+        return $sel->fetchAll();
+    }
+    public function findAllByMonth($idp)
+    {
+        $sel = $this->bdd->prepare("SELECT * FROM facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) AND id_personnel = ?");
+        $sel->execute(array($idp));
+        return $sel->fetchAll();
+    }
+    public function findAllByYear($idp)
+    {
+        $sel = $this->bdd->prepare("SELECT * FROM facture WHERE YEAR(date) = YEAR(NOW()) AND id_personnel = ?");
+        $sel->execute(array($idp));
+        return $sel->fetchAll();
+    }
+    public function calculPriceMY($result)
+    {
+        $totalHT = 0.00;
+        $totalTTC = 0.00;
+        $totalVente = 0;
+        foreach ($result as $res) {
+            $totalHT += $res["prix_ht"];
+            $totalTTC += $res["prix_ttc"];
+            $totalVente++;
+        }
+        $price = array($totalVente, $totalHT, $totalTTC);
+        return $price;
+    }
+    public function ligneFactureMonth($idp)
+    {
+        $sel = $this->bdd->prepare("SELECT * FROM ligne_facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) AND id_produits = ?");
+        $sel->execute(array($idp));
+        return $sel->fetchAll();
     }
 }

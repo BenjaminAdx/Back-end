@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="public/css/Ventes.css">
+<h2>Ventes du mois</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre de ventes</th>
+                <th>Prix Total HT</th>
+                <th>Prix Total TCC</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><?= $priceM[0] ?></td>
+                <td><?= $priceM[1] ?> €</td>
+                <td><?= $priceM[2] ?> €</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+<h2>Ventes sur l'année en cours</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre de ventes</th>
+                <th>Prix Total HT</th>
+                <th>Prix Total TCC</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td><?= $priceY[0] ?></td>
+                <td><?= $priceY[1] ?> €</td>
+                <td><?= $priceY[2] ?> €</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
