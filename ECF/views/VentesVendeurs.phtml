@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="public/css/Ventes.css">
+<h2>Ventes par vendeur sur le mois en cours</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom du vendeur</th>
+                <th>Prix Total HT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($month as $res) : ?>
+
+                <tr>
+
+                    <td><?= $res["nom"] ?></td>
+                    <td><?= $res["total_ht"] ?> €</td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>
+<h2>Ventes par vendeur sur l'année en cours</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom du vendeur</th>
+                <th>Prix Total HT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($year as $res) : ?>
+
+                <tr>
+
+                    <td><?= $res["nom"] ?></td>
+                    <td><?= $res["total_ht"] ?> €</td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>

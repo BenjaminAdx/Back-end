@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="public/css/Customers.css">
+<h1>Clients avec leur factures associés</h1>
 <table>
     <th>Nom</th>
     <th>Prenom</th>
@@ -16,8 +17,8 @@
             <td><?= $res["ville"] ?></td>
             <td><?= $res["email"] ?></td>
             <td><?= $res["telephone"] ?></td>
-            <td><a href="http://localhost/Back-end/ECF/Factures/showFactures/<?= $res["id"] ?>">Toutes ces factures</a></td>
-            <td><a href="http://localhost/Back-end/ECF/Factures/createFacture/<?= $res["id"] ?>">Nouvelle facture</a></td>
+            <td><a href="/Back-end/ECF/Factures/showFactures/<?= $res["id"] ?>"><img src="public/assets/file-lines-solid.svg" alt="icône lignes"></a></td>
+            <td><a href="/Back-end/ECF/Factures/createFacture/<?= $res["id"] ?>"><img src="public/assets/square-plus-solid.svg" alt="icône plus"></a></td>
         </tr>
     <?php endforeach; ?>
 </table>

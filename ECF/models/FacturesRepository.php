@@ -66,39 +66,50 @@ class FacturesRepository
     }
     public function findAllByDay()
     {
-        $sel = $this->bdd->prepare("SELECT * FROM facture WHERE DAY(date) = DAY(NOW()) AND MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW())");
+        $sel = $this->bdd->prepare('SELECT COUNT(id) as "nombre", SUM(prix_ht) as "total_ht", SUM(prix_ttc) as "total_ttc" FROM facture WHERE DAY(date) = DAY(NOW()) AND MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW())');
         $sel->execute();
-        return $sel->fetchAll();
+        return $sel->fetch();
     }
     public function findAllByMonth($idp)
     {
-        $sel = $this->bdd->prepare("SELECT * FROM facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) AND id_personnel = ?");
+        $sel = $this->bdd->prepare('SELECT COUNT(id) as "nombre", SUM(prix_ht) as "total_ht", SUM(prix_ttc) as "total_ttc" FROM facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) AND id_personnel = ?');
         $sel->execute(array($idp));
-        return $sel->fetchAll();
+        return $sel->fetch();
     }
     public function findAllByYear($idp)
     {
-        $sel = $this->bdd->prepare("SELECT * FROM facture WHERE YEAR(date) = YEAR(NOW()) AND id_personnel = ?");
+        $sel = $this->bdd->prepare('SELECT COUNT(id) as "nombre", SUM(prix_ht) as "total_ht", SUM(prix_ttc) as "total_ttc" FROM facture WHERE YEAR(date) = YEAR(NOW()) AND id_personnel = ?');
         $sel->execute(array($idp));
+        return $sel->fetch();
+    }
+    public function findAllByProduitByMonth()
+    {
+        $sel = $this->bdd->prepare('Select p.name, p.price_ht, SUM(l.quantité) AS "quantité", SUM(l.quantité * p.price_ht) AS "total" FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN facture f ON f.id = l.id_facture WHERE MONTH(f.date) = MONTH(NOW()) AND YEAR(f.date) = YEAR(NOW()) GROUP BY p.name, p.price_ht');
+        $sel->execute();
         return $sel->fetchAll();
     }
-    public function calculPriceMY($result)
+    public function findAllByProduitByYear()
     {
-        $totalHT = 0.00;
-        $totalTTC = 0.00;
-        $totalVente = 0;
-        foreach ($result as $res) {
-            $totalHT += $res["prix_ht"];
-            $totalTTC += $res["prix_ttc"];
-            $totalVente++;
-        }
-        $price = array($totalVente, $totalHT, $totalTTC);
-        return $price;
+        $sel = $this->bdd->prepare('Select p.name, p.price_ht, SUM(l.quantité) AS "quantité", SUM(l.quantité * p.price_ht) AS "total" FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN facture f ON f.id = l.id_facture WHERE YEAR(f.date) = YEAR(NOW()) GROUP BY p.name, p.price_ht');
+        $sel->execute();
+        return $sel->fetchAll();
     }
-    public function ligneFactureMonth($idp)
+    public function findTvaByMonth()
     {
-        $sel = $this->bdd->prepare("SELECT * FROM ligne_facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) AND id_produits = ?");
-        $sel->execute(array($idp));
+        $sel = $this->bdd->prepare('Select SUM(prix_ht) as "total_ht", SUM(prix_ttc) as "total_ttc", SUM(prix_ttc - prix_ht) as "total_tva" from facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW())');
+        $sel->execute();
+        return $sel->fetch();
+    }
+    public function findAllByVendeurByMonth()
+    {
+        $sel = $this->bdd->prepare('Select p.nom, SUM(f.prix_ht) AS "total_ht" FROM facture f JOIN personnel p ON f.id_personnel = p.id WHERE MONTH(f.date) = MONTH(NOW()) AND YEAR(f.date) = YEAR(NOW()) GROUP BY p.nom');
+        $sel->execute();
+        return $sel->fetchAll();
+    }
+    public function findAllByVendeurByYear()
+    {
+        $sel = $this->bdd->prepare('Select p.nom, SUM(f.prix_ht) AS "total_ht" FROM facture f JOIN personnel p ON f.id_personnel = p.id WHERE YEAR(f.date) = YEAR(NOW()) GROUP BY p.nom');
+        $sel->execute();
         return $sel->fetchAll();
     }
 }

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECF</title>
-    <base href="http://localhost/Back-end/ECF/">
+    <base href="/Back-end/ECF/">
     <link rel="stylesheet" href="public/css/Base.css">
 </head>
 
@@ -15,17 +15,17 @@
     <nav>
         <?php if (isset($_SESSION["id"])) : ?>
             <?php if ($_SESSION["role"] >= 1) : ?>
-                <a href="http://localhost/Back-end/ECF/Produits/Produits">Accueil</a>
-                <a href="http://localhost/Back-end/ECF/Customers/register">Enregistrer un client</a>
-                <a href="http://localhost/Back-end/ECF/Customers/Customers">Facturation</a>
-                <a href="http://localhost/Back-end/ECF/Users/ventes">Mes ventes</a>
+                <a href="/Back-end/ECF/Produits/Produits">Accueil</a>
+                <a href="/Back-end/ECF/Customers/register">Enregistrer un client</a>
+                <a href="/Back-end/ECF/Customers/Customers">Facturation</a>
+                <a href="/Back-end/ECF/Users/ventes">Mes ventes</a>
             <?php endif; ?>
             <?php if ($_SESSION["role"] === 2) : ?>
-                <a href="http://localhost/Back-end/ECF/Users/ventesDay">Ventes journalières</a>
-                <a href="">Ventes par produits et TVA</a>
-                <a href="">Ventes cummulés par vendeur</a>
+                <a href="/Back-end/ECF/Users/ventesDay">Ventes journalières</a>
+                <a href="/Back-end/ECF/Users/ventesProduits">Ventes par produits et TVA</a>
+                <a href="/Back-end/ECF/Users/ventesVendeurs">Ventes cummulés par vendeur</a>
             <?php endif; ?>
-            <a href="http://localhost/Back-end/ECF/Users/deconnexion">Deconnexion</a>
+            <a href="/Back-end/ECF/Users/deconnexion">Deconnexion</a>
         <?php endif; ?>
     </nav>
 

@@ -23,12 +23,12 @@ if (isset($message)) {
             <td><?= $res["stock"] ?></td>
             <td><?= $res["alerte"] ?></td>
             <?php if ($_SESSION["role"] === 2) : ?>
-                <td><a href="http://localhost/Back-end/ECF/Produits/modifierProduits/<?= $res["id"] ?>"><img src="public/assets/pen-to-square-solid.svg" alt="icône stylo modifier"></a></td>
-                <td><a href="http://localhost/Back-end/ECF/Produits/suppressionProduits/<?= $res["id"] ?>"><img src="public/assets/square-minus-solid.svg" alt="icône moins"></a></td>
+                <td><a href="/Back-end/ECF/Produits/modifierProduits/<?= $res["id"] ?>"><img src="public/assets/pen-to-square-solid.svg" alt="icône stylo modifier"></a></td>
+                <td><a href="/Back-end/ECF/Produits/suppressionProduits/<?= $res["id"] ?>"><img src="public/assets/square-minus-solid.svg" alt="icône moins"></a></td>
             <?php endif; ?>
         </tr>
     <?php endforeach; ?>
 </table>
 <?php if ($_SESSION["role"] === 2) : ?>
-    <a href="http://localhost/Back-end/ECF/Produits/ajoutProduits"><img src="public/assets/square-plus-solid.svg" alt="icône plus"></a>
+    <a href="/Back-end/ECF/Produits/ajoutProduits"><img src="public/assets/square-plus-solid.svg" alt="icône plus"></a>
 <?php endif; ?>

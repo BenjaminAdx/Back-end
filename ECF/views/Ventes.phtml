@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="public/css/Ventes.css">
-<h2>Ventes du mois</h2>
+<h2>Ventes sur le mois en cours</h2>
 <section class="order-details">
     <table>
         <thead>
@@ -12,9 +12,9 @@
         <tbody>
 
             <tr>
-                <td><?= $priceM[0] ?></td>
-                <td><?= $priceM[1] ?> €</td>
-                <td><?= $priceM[2] ?> €</td>
+                <td><?= $resultM["nombre"] ?></td>
+                <td><?= $resultM["total_ht"] ?> €</td>
+                <td><?= $resultM["total_ttc"] ?> €</td>
             </tr>
         </tbody>
     </table>
@@ -32,9 +32,9 @@
         <tbody>
 
             <tr>
-                <td><?= $priceY[0] ?></td>
-                <td><?= $priceY[1] ?> €</td>
-                <td><?= $priceY[2] ?> €</td>
+                <td><?= $resultY["nombre"] ?></td>
+                <td><?= $resultY["total_ht"] ?> €</td>
+                <td><?= $resultY["total_ttc"] ?> €</td>
             </tr>
         </tbody>
     </table>

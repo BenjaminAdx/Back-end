@@ -7,3 +7,7 @@ Admin : nombre d'articles rejetés par utilisateur
 SELECT u.username, COUNT(a.ID) AS "total rejeté" FROM Article a JOIN User u ON a.ID_User = u.ID JOIN Moderation m ON a.ID_Moderation = m.ID WHERE m.etat = "rejet" GROUP BY u.username;
 
 SELECT a.title, m.etat FROM Article a JOIN Moderation m ON a.ID_Moderation = m.ID ORDER BY a.ID;
+
+SELECT p.name, p.price_ht, t.taux, l.quantité FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN tva t ON p.id_tva = t.id WHERE l.id_facture = ?;
+
+Select p.name, p.price_ht, SUM(l.quantité) AS "quantité" FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN facture f ON f.id = l.id_facture WHERE MONTH(f.date) = MONTH(NOW()) AND YEAR(f.date) = YEAR(NOW()) GROUP BY p.name, p.price_ht;

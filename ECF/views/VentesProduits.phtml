@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="public/css/Ventes.css">
+<h2>Ventes par produits sur le mois en cours</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom du produit</th>
+                <th>Prix HT</th>
+                <th>Quantité</th>
+                <th>Prix Total HT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($month as $res) : ?>
+
+                <tr>
+
+                    <td><?= $res["name"] ?></td>
+                    <td><?= $res["price_ht"] ?> €</td>
+                    <td><?= $res["quantité"] ?></td>
+                    <td><?= $res["total"] ?> €</td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>
+<h2>TVA collecté sur le mois en cours</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Prix Total HT</th>
+                <th>Prix Total TTC</th>
+                <th>Prix Total TVA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+
+                <td><?= $tva["total_ht"] ?> €</td>
+                <td><?= $tva["total_ttc"] ?> €</td>
+                <td><?= $tva["total_tva"] ?> €</td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+<h2>Ventes par produits sur l'année en cours</h2>
+<section class="order-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom du produit</th>
+                <th>Prix HT</th>
+                <th>Quantité</th>
+                <th>Prix Total HT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($year as $res) : ?>
+
+                <tr>
+
+                    <td><?= $res["name"] ?></td>
+                    <td><?= $res["price_ht"] ?> €</td>
+                    <td><?= $res["quantité"] ?></td>
+                    <td><?= $res["total"] ?> €</td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>

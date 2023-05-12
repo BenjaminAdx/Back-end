@@ -3,20 +3,17 @@
 namespace controllers;
 
 use models\FacturesRepository;
-use models\ProduitsRepository;
 use models\UsersRepository;
 
 class UsersController
 {
     private $user;
     private $facture;
-    private $produit;
 
     public function __construct()
     {
         $this->user = new UsersRepository();
         $this->facture = new FacturesRepository();
-        $this->produit = new ProduitsRepository();
     }
     public function index()
     {
@@ -26,11 +23,9 @@ class UsersController
     public function indexPost()
     {
         $result = $this->user->findUser($_POST["name"]);
-        if (password_verify($_POST["password"], $result["password"])) {
-            $_SESSION["id"] = $result["id"];
-            $_SESSION["role"] = $result["role"];
-            $_SESSION["nom"] = $result["nom"];
-            return header("Location: /Back-end/ECF/Produits/Produits");
+        $message = $this->user->checkPassword($result, $_POST["password"]);
+        if ($message) {
+            header("Location: /Back-end/ECF/Produits/Produits");
         } else {
             $erreur = "Mauvais mot de passe";
             $page = "views/Index.phtml";
@@ -47,8 +42,6 @@ class UsersController
         $this->user->checkConnexion($_SESSION["id"]);
         $resultM = $this->facture->findAllByMonth($_SESSION["id"]);
         $resultY = $this->facture->findAllByYear($_SESSION["id"]);
-        $priceM = $this->facture->calculPriceMY($resultM);
-        $priceY = $this->facture->calculPriceMY($resultY);
 
         $page = "views/Ventes.phtml";
         require_once "views/Base.phtml";
@@ -58,7 +51,6 @@ class UsersController
         $this->user->checkConnexion($_SESSION["id"]);
         $this->user->checkRole($_SESSION["role"]);
         $resultD = $this->facture->findAllByDay();
-        $priceD = $this->facture->calculPriceMY($resultD);
 
         $page = "views/VentesDay.phtml";
         require_once "views/Base.phtml";
@@ -67,6 +59,21 @@ class UsersController
     {
         $this->user->checkConnexion($_SESSION["id"]);
         $this->user->checkRole($_SESSION["role"]);
-        $produits = $this->produit->findAll();
+        $month = $this->facture->findAllByProduitByMonth();
+        $tva = $this->facture->findTvaByMonth();
+        $year = $this->facture->findAllByProduitByYear();
+
+        $page = "views/VentesProduits.phtml";
+        require_once "views/Base.phtml";
+    }
+    public function ventesVendeurs()
+    {
+        $this->user->checkConnexion($_SESSION["id"]);
+        $this->user->checkRole($_SESSION["role"]);
+        $month = $this->facture->findAllByVendeurByMonth();
+        $year = $this->facture->findAllByVendeurByYear();
+
+        $page = "views/VentesVendeurs.phtml";
+        require_once "views/Base.phtml";
     }
 }
