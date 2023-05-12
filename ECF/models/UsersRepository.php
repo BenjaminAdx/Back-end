@@ -20,6 +20,17 @@ class UsersRepository
 
         return $select->fetch();
     }
+    public function checkPassword($result, $password)
+    {
+        if (password_verify($password, $result["password"])) {
+            $_SESSION["id"] = $result["id"];
+            $_SESSION["role"] = $result["role"];
+            $_SESSION["nom"] = $result["nom"];
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function checkConnexion($id)
     {
         if (!isset($id)) {
