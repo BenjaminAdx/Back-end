@@ -7,11 +7,11 @@ use PDO;
 class UsersRepository
 {
 
-    private $bdd;
+    protected PDO $bdd;
 
     public function __construct()
     {
-        $this->bdd = new \PDO("mysql:host=localhost;dbname=ecf", "root", "root");
+        $this->bdd = \config\Database::getpdo();
     }
     public function findUser($user)
     {

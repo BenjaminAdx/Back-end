@@ -7,11 +7,11 @@ use PDO;
 class CustomersRepository
 {
 
-    private $bdd;
+    protected PDO $bdd;
 
     public function __construct()
     {
-        $this->bdd = new \PDO("mysql:host=localhost;dbname=ecf", "root", "root");
+        $this->bdd = \config\Database::getpdo();
     }
     public function registerCustomer($nom, $prenom, $adresse1, $adresse2, $code, $ville, $email, $telephone)
     {
