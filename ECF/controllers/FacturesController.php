@@ -61,6 +61,7 @@ class FacturesController
     }
     public function showFactureDetail($idf)
     {
+        $this->connexion->checkConnexion($_SESSION["id"]);
         $resFacture = $this->facture->findAllByFacture($idf);
         $resProduit = $this->facture->selectJoinFacture($idf);
         $resClient = $this->client->find($resFacture["id_clients"]);
