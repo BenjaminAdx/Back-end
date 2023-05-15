@@ -24,6 +24,17 @@ class FacturesRepository
         $insert = $this->bdd->prepare("INSERT INTO ligne_facture (quantité, id_produits, id_facture) VALUES (?,?,?)");
         $insert->execute(array($quantite, $idp, $idf));
     }
+    public function factureTableau($post)
+    {
+        for ($i = 1; $i <= count($post) / 2; $i++) {
+            $sous_tableau = array(
+                "produit" => $post["produit_" . $i],
+                "quantite" => $post["quantite_" . $i]
+            );
+            $tableau[] = $sous_tableau;
+        }
+        return $tableau;
+    }
     public function selectJoinFacture($idf)
     {
         $select = $this->bdd->prepare("SELECT p.name, p.price_ht, t.taux, l.quantité FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN tva t ON p.id_tva = t.id WHERE l.id_facture = ?");

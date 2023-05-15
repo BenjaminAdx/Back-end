@@ -40,18 +40,10 @@ class FacturesController
         $this->connexion->checkConnexion($_SESSION["id"]);
 
         $idFacture = $this->facture->newFacture($id, $_SESSION["id"]);
-
-        for ($i = 1; $i <= count($_POST) / 2; $i++) {
-            $sous_tableau = array(
-                "produit" => $_POST["produit_" . $i],
-                "quantite" => $_POST["quantite_" . $i]
-            );
-            $tableau[] = $sous_tableau;
-        }
-        $stock = new ProduitsRepository();
+        $tableau = $this->facture->factureTableau($_POST);
         foreach ($tableau as $tableau2) {
             $this->facture->ligneFacture($tableau2["quantite"], $tableau2["produit"], $idFacture);
-            $stock->modStock($tableau2["quantite"], $tableau2["produit"]);
+            $this->produit->modStock($tableau2["quantite"], $tableau2["produit"]);
         }
         $join = $this->facture->selectJoinFacture($idFacture);
         $price = $this->facture->calculPrice($join);

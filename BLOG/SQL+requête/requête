@@ -11,3 +11,7 @@ SELECT a.title, m.etat FROM Article a JOIN Moderation m ON a.ID_Moderation = m.I
 SELECT p.name, p.price_ht, t.taux, l.quantité FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN tva t ON p.id_tva = t.id WHERE l.id_facture = ?;
 
 Select p.name, p.price_ht, SUM(l.quantité) AS "quantité" FROM produits p JOIN ligne_facture l ON p.id = l.id_produits JOIN facture f ON f.id = l.id_facture WHERE MONTH(f.date) = MONTH(NOW()) AND YEAR(f.date) = YEAR(NOW()) GROUP BY p.name, p.price_ht;
+
+Select SUM(prix_ht) as "total_ht", SUM(prix_ttc) as "total_ttc", SUM(prix_ttc - prix_ht) as "total_tva" from facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW());
+
+SELECT COUNT(id) as "nombre", SUM(prix_ht) as "total_ht", SUM(prix_ttc) as "total_ttc" FROM facture WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) AND id_personnel = ?
