@@ -1,11 +1,17 @@
 <link rel="stylesheet" href="public/css/Index.css">
 <h1>Veuillez modifier le produit suivant <?= $result["name"] ?></h1>
 <form action="/Back-end/ECF/Produits/modifierProduitsPost/<?= $result["id"] ?>" method="POST">
-    <input type="text" name="name" id="" placeholder="nom" required value="<?= $result["name"] ?>">
-    <input type="text" name="reference" id="" placeholder="référence" required value="<?= $result["reference"] ?>">
-    <input type="number" name="price_ht" id="" placeholder="prix hors taxe (2 décimals et séparé par un point)" step="0.01" required value="<?= $result["price_ht"] ?>">
-    <input type="number" name="stock" id="" placeholder="stock" required value="<?= $result["stock"] ?>">
-    <input type="number" name="alerte" id="" placeholder="stock alerte" required value="<?= $result["alerte"] ?>">
-    <input type="number" name="id_tva" id="" placeholder="Tva 10% = 1, 20% = 2" required value="<?= $result["id_tva"] ?>">
+    <label for="name">Nom du produit</label>
+    <input type="text" name="name" id="name" required value="<?= $result["name"] ?>">
+    <label for="reference">Reference du produit</label>
+    <input type="text" name="reference" id="reference" required value="<?= $result["reference"] ?>">
+    <label for="price_ht">Prix Hors Taxe du produit</label>
+    <input type="number" name="price_ht" id="price_ht" step="0.01" required value="<?= $result["price_ht"] ?>">
+    <label for="stock">Stock du produit</label>
+    <input type="number" name="stock" id="stock" required value="<?= $result["stock"] ?>">
+    <label for="alerte">Stock alerte du produit</label>
+    <input type="number" name="alerte" id="alerte" required value="<?= $result["alerte"] ?>">
+    <label for="id_tva">ID TVA du produit</label>
+    <input type="number" name="id_tva" id="id_tva" required value="<?= $result["id_tva"] ?>">
     <input type="submit" value="Modifier">
 </form>
