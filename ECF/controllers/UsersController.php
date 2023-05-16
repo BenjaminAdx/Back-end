@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use config\Middleware;
 use models\FacturesRepository;
 use models\UsersRepository;
 
@@ -9,11 +10,13 @@ class UsersController
 {
     private $user;
     private $facture;
+    private $connexion;
 
     public function __construct()
     {
         $this->user = new UsersRepository();
         $this->facture = new FacturesRepository();
+        $this->connexion = new Middleware();
     }
     public function index()
     {
@@ -39,7 +42,7 @@ class UsersController
     }
     public function ventes()
     {
-        $this->user->checkConnexion($_SESSION["id"]);
+        $this->connexion->authMiddleware($_SESSION["id"]);
         $resultM = $this->facture->findAllByMonth($_SESSION["id"]);
         $resultY = $this->facture->findAllByYear($_SESSION["id"]);
 
@@ -48,8 +51,8 @@ class UsersController
     }
     public function ventesDay()
     {
-        $this->user->checkConnexion($_SESSION["id"]);
-        $this->user->checkRole($_SESSION["role"]);
+        $this->connexion->authMiddleware($_SESSION["id"]);
+        $this->connexion->roleMiddleware($_SESSION["role"]);
         $resultD = $this->facture->findAllByDay();
 
         $page = "views/VentesDay.phtml";
@@ -57,8 +60,8 @@ class UsersController
     }
     public function ventesProduits()
     {
-        $this->user->checkConnexion($_SESSION["id"]);
-        $this->user->checkRole($_SESSION["role"]);
+        $this->connexion->authMiddleware($_SESSION["id"]);
+        $this->connexion->roleMiddleware($_SESSION["role"]);
         $month = $this->facture->findAllByProduitByMonth();
         $tva = $this->facture->findTvaByMonth();
         $year = $this->facture->findAllByProduitByYear();
@@ -68,8 +71,8 @@ class UsersController
     }
     public function ventesVendeurs()
     {
-        $this->user->checkConnexion($_SESSION["id"]);
-        $this->user->checkRole($_SESSION["role"]);
+        $this->connexion->authMiddleware($_SESSION["id"]);
+        $this->connexion->roleMiddleware($_SESSION["role"]);
         $month = $this->facture->findAllByVendeurByMonth();
         $year = $this->facture->findAllByVendeurByYear();
 

@@ -5,40 +5,37 @@ namespace controllers;
 use models\CustomersRepository;
 use models\FacturesRepository;
 use models\ProduitsRepository;
-use models\UsersRepository;
 
 class FacturesController
 {
-    private $connexion;
     private $facture;
     private $client;
     private $produit;
 
     public function __construct()
     {
-        $this->connexion = new UsersRepository();
         $this->facture = new FacturesRepository();
         $this->client = new CustomersRepository();
         $this->produit = new ProduitsRepository();
+        if (!isset($_SESSION["id"])) {
+            header("Location: /Back-end/ECF/Users/deconnexion");
+            exit();
+        }
     }
 
     public function facture($id)
     {
-        $this->connexion->checkConnexion($_SESSION["id"]);
         $result = $this->produit->findAll();
         echo json_encode($result);
     }
 
     public function createFacture($id)
     {
-        $this->connexion->checkConnexion($_SESSION["id"]);
         $page = "views/Factures.phtml";
         require_once "views/Base.phtml";
     }
     public function createFacturePost($id)
     {
-        $this->connexion->checkConnexion($_SESSION["id"]);
-
         $idFacture = $this->facture->newFacture($id, $_SESSION["id"]);
         $tableau = $this->facture->factureTableau($_POST);
         foreach ($tableau as $tableau2) {
@@ -53,7 +50,6 @@ class FacturesController
     }
     public function showFactures($id)
     {
-        $this->connexion->checkConnexion($_SESSION["id"]);
         $result = $this->facture->findAllByClient($id);
         $data = $this->client->find($id);
         $page = "views/FacturesClients.phtml";
@@ -61,7 +57,6 @@ class FacturesController
     }
     public function showFactureDetail($idf)
     {
-        $this->connexion->checkConnexion($_SESSION["id"]);
         $resFacture = $this->facture->findAllByFacture($idf);
         $resProduit = $this->facture->selectJoinFacture($idf);
         $resClient = $this->client->find($resFacture["id_clients"]);
